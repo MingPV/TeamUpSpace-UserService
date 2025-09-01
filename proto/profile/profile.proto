@@ -1,0 +1,57 @@
+syntax = "proto3";
+
+package profile;
+
+option go_package = "github.com/MingPV/UserService/proto/profilepb";
+
+message Profile {
+  int32 id = 1;
+  double total = 2;
+}
+
+message CreateProfileRequest {
+  double total = 1;
+}
+
+message CreateProfileResponse {
+  Profile profile = 1;
+}
+
+message FindProfileByIDRequest {
+  int32 id = 1;
+}
+
+message FindProfileByIDResponse {
+  Profile profile = 1;
+}
+
+message FindAllProfilesRequest {}
+
+message FindAllProfilesResponse {
+  repeated Profile profiles = 1;
+}
+
+message PatchProfileRequest {
+  int32 id = 1;
+  double total = 2;
+}
+
+message PatchProfileResponse {
+  Profile profile = 1;
+}
+
+message DeleteProfileRequest {
+  int32 id = 1;
+}
+
+message DeleteProfileResponse {
+  string message = 1;
+}
+
+service ProfileService {
+  rpc CreateProfile(CreateProfileRequest) returns (CreateProfileResponse);
+  rpc FindProfileByID(FindProfileByIDRequest) returns (FindProfileByIDResponse);
+  rpc FindAllProfiles(FindAllProfilesRequest) returns (FindAllProfilesResponse);
+  rpc PatchProfile(PatchProfileRequest) returns (PatchProfileResponse);
+  rpc DeleteProfile(DeleteProfileRequest) returns (DeleteProfileResponse);
+}

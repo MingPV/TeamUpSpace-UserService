@@ -1,6 +1,6 @@
 basePath: /api/v1
 definitions:
-  entities.Order:
+  entities.Profile:
     properties:
       id:
         type: integer
@@ -76,7 +76,7 @@ paths:
       summary: Register a new user
       tags:
       - users
-  /orders:
+  /profiles:
     get:
       produces:
       - application/json
@@ -85,35 +85,35 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/entities.Order'
+              $ref: '#/definitions/entities.Profile'
             type: array
-      summary: Get all orders
+      summary: Get all profiles
       tags:
-      - orders
+      - profiles
     post:
       consumes:
       - application/json
       parameters:
-      - description: Order payload
+      - description: Profile payload
         in: body
-        name: order
+        name: profile
         required: true
         schema:
-          $ref: '#/definitions/entities.Order'
+          $ref: '#/definitions/entities.Profile'
       produces:
       - application/json
       responses:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/entities.Order'
-      summary: Create a new order
+            $ref: '#/definitions/entities.Profile'
+      summary: Create a new profile
       tags:
-      - orders
-  /orders/{id}:
+      - profiles
+  /profiles/{id}:
     delete:
       parameters:
-      - description: Order ID
+      - description: Profile ID
         in: path
         name: id
         required: true
@@ -125,12 +125,12 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/response.MessageResponse'
-      summary: Delete an order by ID
+      summary: Delete an profile by ID
       tags:
-      - orders
+      - profiles
     get:
       parameters:
-      - description: Order ID
+      - description: Profile ID
         in: path
         name: id
         required: true
@@ -141,35 +141,35 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/entities.Order'
-      summary: Get order by ID
+            $ref: '#/definitions/entities.Profile'
+      summary: Get profile by ID
       tags:
-      - orders
+      - profiles
     patch:
       consumes:
       - application/json
       parameters:
-      - description: Order ID
+      - description: Profile ID
         in: path
         name: id
         required: true
         type: integer
-      - description: Order update payload
+      - description: Profile update payload
         in: body
-        name: order
+        name: profile
         required: true
         schema:
-          $ref: '#/definitions/entities.Order'
+          $ref: '#/definitions/entities.Profile'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/entities.Order'
-      summary: Update an order partially
+            $ref: '#/definitions/entities.Profile'
+      summary: Update an profile partially
       tags:
-      - orders
+      - profiles
   /users:
     get:
       produces:

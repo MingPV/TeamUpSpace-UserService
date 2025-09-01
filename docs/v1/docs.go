@@ -85,22 +85,22 @@ const docTemplate = `{
                 }
             }
         },
-        "/orders": {
+        "/profiles": {
             "get": {
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "orders"
+                    "profiles"
                 ],
-                "summary": "Get all orders",
+                "summary": "Get all profiles",
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/entities.Order"
+                                "$ref": "#/definitions/entities.Profile"
                             }
                         }
                     }
@@ -114,17 +114,17 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "orders"
+                    "profiles"
                 ],
-                "summary": "Create a new order",
+                "summary": "Create a new profile",
                 "parameters": [
                     {
-                        "description": "Order payload",
-                        "name": "order",
+                        "description": "Profile payload",
+                        "name": "profile",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/entities.Order"
+                            "$ref": "#/definitions/entities.Profile"
                         }
                     }
                 ],
@@ -132,25 +132,25 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/entities.Order"
+                            "$ref": "#/definitions/entities.Profile"
                         }
                     }
                 }
             }
         },
-        "/orders/{id}": {
+        "/profiles/{id}": {
             "get": {
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "orders"
+                    "profiles"
                 ],
-                "summary": "Get order by ID",
+                "summary": "Get profile by ID",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "Order ID",
+                        "description": "Profile ID",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -160,7 +160,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/entities.Order"
+                            "$ref": "#/definitions/entities.Profile"
                         }
                     }
                 }
@@ -170,13 +170,13 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "orders"
+                    "profiles"
                 ],
-                "summary": "Delete an order by ID",
+                "summary": "Delete an profile by ID",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "Order ID",
+                        "description": "Profile ID",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -199,24 +199,24 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "orders"
+                    "profiles"
                 ],
-                "summary": "Update an order partially",
+                "summary": "Update an profile partially",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "Order ID",
+                        "description": "Profile ID",
                         "name": "id",
                         "in": "path",
                         "required": true
                     },
                     {
-                        "description": "Order update payload",
-                        "name": "order",
+                        "description": "Profile update payload",
+                        "name": "profile",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/entities.Order"
+                            "$ref": "#/definitions/entities.Profile"
                         }
                     }
                 ],
@@ -224,7 +224,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/entities.Order"
+                            "$ref": "#/definitions/entities.Profile"
                         }
                     }
                 }
@@ -301,7 +301,7 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "entities.Order": {
+        "entities.Profile": {
             "type": "object",
             "properties": {
                 "id": {

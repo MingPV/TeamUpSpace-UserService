@@ -4,10 +4,10 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"gorm.io/gorm"
 
-	// Order
-	orderHandler "github.com/MingPV/UserService/internal/order/handler/rest"
-	orderRepository "github.com/MingPV/UserService/internal/order/repository"
-	orderUseCase "github.com/MingPV/UserService/internal/order/usecase"
+	// Profile
+	profileHandler "github.com/MingPV/UserService/internal/profile/handler/rest"
+	profileRepository "github.com/MingPV/UserService/internal/profile/repository"
+	profileUseCase "github.com/MingPV/UserService/internal/profile/usecase"
 
 	// User
 	userHandler "github.com/MingPV/UserService/internal/user/handler/rest"
@@ -21,10 +21,10 @@ func RegisterPublicRoutes(app fiber.Router, db *gorm.DB) {
 
 	// === Dependency Wiring ===
 
-	// Order
-	orderRepo := orderRepository.NewGormOrderRepository(db)
-	orderService := orderUseCase.NewOrderService(orderRepo)
-	orderHandler := orderHandler.NewHttpOrderHandler(orderService)
+	// Profile
+	profileRepo := profileRepository.NewGormProfileRepository(db)
+	profileService := profileUseCase.NewProfileService(profileRepo)
+	profileHandler := profileHandler.NewHttpProfileHandler(profileService)
 
 	// User
 	userRepo := userRepository.NewGormUserRepository(db)
@@ -45,11 +45,11 @@ func RegisterPublicRoutes(app fiber.Router, db *gorm.DB) {
 	userGroup.Patch("/:id", userHandler.PatchUser)
 	userGroup.Delete("/:id", userHandler.DeleteUser)
 
-	// Order routes
-	orderGroup := api.Group("/orders")
-	orderGroup.Get("/", orderHandler.FindAllOrders)
-	orderGroup.Get("/:id", orderHandler.FindOrderByID)
-	orderGroup.Post("/", orderHandler.CreateOrder)
-	orderGroup.Patch("/:id", orderHandler.PatchOrder)
-	orderGroup.Delete("/:id", orderHandler.DeleteOrder)
+	// Profile routes
+	profileGroup := api.Group("/profiles")
+	profileGroup.Get("/", profileHandler.FindAllProfiles)
+	profileGroup.Get("/:id", profileHandler.FindProfileByID)
+	profileGroup.Post("/", profileHandler.CreateProfile)
+	profileGroup.Patch("/:id", profileHandler.PatchProfile)
+	profileGroup.Delete("/:id", profileHandler.DeleteProfile)
 }

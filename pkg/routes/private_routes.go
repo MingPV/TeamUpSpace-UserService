@@ -19,5 +19,4 @@ func RegisterPrivateRoutes(app fiber.Router, db *gorm.DB) {
 	userHandler := userHandler.NewHttpUserHandler(UserService)
 
 	route.Get("/me", userHandler.GetUser)
-
 }

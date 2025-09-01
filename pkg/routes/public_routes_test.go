@@ -83,27 +83,27 @@ func TestPublicRoutes(t *testing.T) {
 	})
 
 	// === ORDERS ===
-	t.Run("GET /api/v1/orders", func(t *testing.T) {
-		req := httptest.NewRequest("GET", "/api/v1/orders", nil)
+	t.Run("GET /api/v1/profiles", func(t *testing.T) {
+		req := httptest.NewRequest("GET", "/api/v1/profiles", nil)
 		resp, err := app.Test(req, -1)
 		assert.NoError(t, err)
 		assert.Equal(t, fiber.StatusOK, resp.StatusCode)
 	})
 
-	t.Run("GET /api/v1/orders/:id (not found)", func(t *testing.T) {
-		req := httptest.NewRequest("GET", "/api/v1/orders/999", nil)
+	t.Run("GET /api/v1/profiles/:id (not found)", func(t *testing.T) {
+		req := httptest.NewRequest("GET", "/api/v1/profiles/999", nil)
 		resp, err := app.Test(req, -1)
 		assert.NoError(t, err)
 		assert.NotEqual(t, fiber.StatusInternalServerError, resp.StatusCode)
 	})
 
-	t.Run("POST /api/v1/orders", func(t *testing.T) {
+	t.Run("POST /api/v1/profiles", func(t *testing.T) {
 		body := map[string]interface{}{
 			"total": 300,
 		}
 		jsonBody, _ := json.Marshal(body)
 
-		req := httptest.NewRequest("POST", "/api/v1/orders", bytes.NewBuffer(jsonBody))
+		req := httptest.NewRequest("POST", "/api/v1/profiles", bytes.NewBuffer(jsonBody))
 		req.Header.Set("Content-Type", "application/json")
 
 		resp, err := app.Test(req, -1)
@@ -111,13 +111,13 @@ func TestPublicRoutes(t *testing.T) {
 		assert.True(t, resp.StatusCode == fiber.StatusOK || resp.StatusCode == fiber.StatusCreated)
 	})
 
-	t.Run("PATCH /api/v1/orders/:id", func(t *testing.T) {
+	t.Run("PATCH /api/v1/profiles/:id", func(t *testing.T) {
 		body := map[string]interface{}{
 			"total": 3001,
 		}
 		jsonBody, _ := json.Marshal(body)
 
-		req := httptest.NewRequest("PATCH", "/api/v1/orders/1", bytes.NewBuffer(jsonBody))
+		req := httptest.NewRequest("PATCH", "/api/v1/profiles/1", bytes.NewBuffer(jsonBody))
 		req.Header.Set("Content-Type", "application/json")
 
 		resp, err := app.Test(req, -1)
@@ -125,8 +125,8 @@ func TestPublicRoutes(t *testing.T) {
 		assert.True(t, resp.StatusCode >= 200 && resp.StatusCode < 500)
 	})
 
-	t.Run("DELETE /api/v1/orders/:id", func(t *testing.T) {
-		req := httptest.NewRequest("DELETE", "/api/v1/orders/1", nil)
+	t.Run("DELETE /api/v1/profiles/:id", func(t *testing.T) {
+		req := httptest.NewRequest("DELETE", "/api/v1/profiles/1", nil)
 		resp, err := app.Test(req, -1)
 		assert.NoError(t, err)
 		assert.True(t, resp.StatusCode >= 200 && resp.StatusCode < 500)
