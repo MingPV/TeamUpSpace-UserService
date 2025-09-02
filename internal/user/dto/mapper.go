@@ -1,13 +1,20 @@
 package dto
 
-import "github.com/MingPV/UserService/internal/entities"
+import (
+	"github.com/MingPV/UserService/internal/entities"
+
+	profileDTO "github.com/MingPV/UserService/internal/profile/dto"
+)
 
 // From entity.User to UserResponse
 func ToUserResponse(user *entities.User) *UserResponse {
 	return &UserResponse{
-		ID:    user.ID,
-		Email: user.Email,
-		Name:  user.Name,
+		ID:       user.ID,
+		Email:    user.Email,
+		IsAdmin:  user.IsAdmin,
+		IsBan:    user.IsBan,
+		BanUntil: user.BanUntil,
+		Profile:  *profileDTO.ToProfileResponse(&user.Profile),
 	}
 }
 
@@ -17,13 +24,4 @@ func ToUserResponseList(users []*entities.User) []*UserResponse {
 		responses[i] = ToUserResponse(u)
 	}
 	return responses
-}
-
-// From RegisterRequest to entity.User (optional, if want to use in usecase)
-func ToUserEntity(req *RegisterRequest) *entities.User {
-	return &entities.User{
-		Email:    req.Email,
-		Password: req.Password,
-		Name:     req.Name,
-	}
 }

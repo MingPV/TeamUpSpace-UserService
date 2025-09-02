@@ -1,9 +1,11 @@
 package usecase
 
-import "github.com/MingPV/UserService/internal/entities"
+import (
+	"github.com/MingPV/UserService/internal/entities"
+)
 
 type UserUseCase interface {
-	Register(user *entities.User) error
+	Register(user *entities.User, profile *entities.Profile) (*entities.User, error)
 	Login(email, password string) (string, *entities.User, error)
 	FindUserByID(id string) (*entities.User, error)
 	FindAllUsers() ([]*entities.User, error)

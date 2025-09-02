@@ -4,7 +4,6 @@ import (
 	"github.com/MingPV/UserService/internal/entities"
 	"github.com/MingPV/UserService/internal/profile/dto"
 	"github.com/MingPV/UserService/internal/profile/usecase"
-	"github.com/MingPV/UserService/pkg/apperror"
 	responses "github.com/MingPV/UserService/pkg/responses"
 	"github.com/gofiber/fiber/v2"
 )
@@ -144,7 +143,7 @@ func (h *HttpProfileHandler) DeleteProfile(c *fiber.Ctx) error {
 func validatePatchProfile(profile *entities.Profile) (string, error) {
 
 	if profile.Year <= 0 {
-		return "year must be positive", apperror.ErrInvalidData
+		// return "year must be positive", apperror.ErrInvalidData
 	}
 
 	return "", nil

@@ -5,7 +5,8 @@ import (
 	"time"
 
 	"github.com/MingPV/UserService/internal/entities"
-	"github.com/MingPV/UserService/internal/user/repository"
+	profileRepo "github.com/MingPV/UserService/internal/profile/repository"
+	userRepo "github.com/MingPV/UserService/internal/user/repository"
 	"github.com/MingPV/UserService/pkg/apperror"
 	"github.com/golang-jwt/jwt/v5"
 	"golang.org/x/crypto/bcrypt"
@@ -13,34 +14,48 @@ import (
 
 // UserService struct
 type UserService struct {
-	repo repository.UserRepository
+	userRepository    userRepo.UserRepository
+	profileRepository profileRepo.ProfileRepository
 }
 
 // Init UserService
-func NewUserService(repo repository.UserRepository) UserUseCase {
-	return &UserService{repo: repo}
+func NewUserService(userRepository userRepo.UserRepository, profileRepository profileRepo.ProfileRepository) UserUseCase {
+	return &UserService{userRepository: userRepository, profileRepository: profileRepository}
 }
 
 // UserService Methods - 1 Register user (hash password)
-func (s *UserService) Register(user *entities.User) error {
-	existingUser, _ := s.repo.FindByEmail(user.Email)
+func (s *UserService) Register(user *entities.User, profile *entities.Profile) (*entities.User, error) {
+	existingUser, _ := s.userRepository.FindByEmail(user.Email)
 	if existingUser != nil {
-		return apperror.ErrAlreadyExists
+		return nil, apperror.ErrAlreadyExists
 	}
 
 	hashedPwd, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	user.Password = string(hashedPwd)
 
-	return s.repo.Save(user)
+	// Insert profile first because profile has UserID
+	if err := s.profileRepository.Save(profile); err != nil {
+		return nil, err
+	}
+	if err := s.userRepository.Save(user); err != nil {
+		return nil, err
+	}
+
+	createdUser, err := s.userRepository.FindByID(user.ID.String())
+	if err != nil {
+		return nil, apperror.ErrInternalServer
+	}
+
+	return createdUser, nil
 }
 
 // UserService Methods - 2 Login user (check email + password)
 func (s *UserService) Login(email string, password string) (string, *entities.User, error) {
-	user, err := s.repo.FindByEmail(email)
+	user, err := s.userRepository.FindByEmail(email)
 	if err != nil || user == nil {
 		return "", nil, err
 	}
@@ -67,12 +82,12 @@ func (s *UserService) Login(email string, password string) (string, *entities.Us
 
 // UserService Methods - 3 Get user by id
 func (s *UserService) FindUserByID(id string) (*entities.User, error) {
-	return s.repo.FindByID(id)
+	return s.userRepository.FindByID(id)
 }
 
 // UserService Methods - 4 Get all users
 func (s *UserService) FindAllUsers() ([]*entities.User, error) {
-	users, err := s.repo.FindAll()
+	users, err := s.userRepository.FindAll()
 	if err != nil {
 		return nil, err
 	}
@@ -81,7 +96,7 @@ func (s *UserService) FindAllUsers() ([]*entities.User, error) {
 
 // UserService Methods - 5 Get user by email
 func (s *UserService) GetUserByEmail(email string) (*entities.User, error) {
-	user, err := s.repo.FindByEmail(email)
+	user, err := s.userRepository.FindByEmail(email)
 	if err != nil {
 		return nil, err
 	}
@@ -90,17 +105,17 @@ func (s *UserService) GetUserByEmail(email string) (*entities.User, error) {
 
 // UserService Methods - 6 Patch
 func (s *UserService) PatchUser(id string, user *entities.User) (*entities.User, error) {
-	if err := s.repo.Patch(id, user); err != nil {
+	if err := s.userRepository.Patch(id, user); err != nil {
 		return nil, err
 	}
-	updatedUser, _ := s.repo.FindByID(id)
+	updatedUser, _ := s.userRepository.FindByID(id)
 
 	return updatedUser, nil
 }
 
 // UserService Methods - 7 Delete
 func (s *UserService) DeleteUser(id string) error {
-	if err := s.repo.Delete(id); err != nil {
+	if err := s.userRepository.Delete(id); err != nil {
 		return err
 	}
 	return nil

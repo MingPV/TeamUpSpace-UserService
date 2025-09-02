@@ -9,6 +9,7 @@ import (
 	"github.com/MingPV/UserService/pkg/apperror"
 	"github.com/MingPV/UserService/pkg/responses"
 	"github.com/gofiber/fiber/v2"
+	"github.com/google/uuid"
 )
 
 type HttpUserHandler struct {
@@ -33,12 +34,30 @@ func (h *HttpUserHandler) Register(c *fiber.Ctx) error {
 		return responses.Error(c, apperror.ErrInvalidData)
 	}
 
-	userEntity := dto.ToUserEntity(req)
-	if err := h.userUseCase.Register(userEntity); err != nil {
+	user_id := uuid.New()
+	userEntity := &entities.User{
+		ID:       user_id,
+		Email:    req.Email,
+		Password: req.Password,
+	}
+	profileEntity := &entities.Profile{
+		UserID:        user_id,
+		DisplayName:   req.Profile.DisplayName,
+		Description:   req.Profile.Description,
+		Age:           req.Profile.Age,
+		University:    req.Profile.University,
+		Year:          req.Profile.Year,
+		IsGraduated:   req.Profile.IsGraduated,
+		ProfileURL:    req.Profile.ProfileURL,
+		BackgroundURL: req.Profile.BackgroundURL,
+	}
+
+	createdUser, err := h.userUseCase.Register(userEntity, profileEntity)
+	if err != nil {
 		return responses.Error(c, err)
 	}
 
-	return c.Status(fiber.StatusCreated).JSON(dto.ToUserResponse(userEntity))
+	return c.Status(fiber.StatusCreated).JSON(dto.ToUserResponse(createdUser))
 }
 
 // Login godoc
@@ -139,7 +158,7 @@ func (h *HttpUserHandler) PatchUser(c *fiber.Ctx) error {
 		return responses.ErrorWithMessage(c, err, "invalid request")
 	}
 
-	user := &entities.User{Name: req.Name}
+	user := &entities.User{IsBan: req.IsBan}
 
 	msg, err := validatePatchUser(user)
 	if err != nil {
@@ -173,8 +192,8 @@ func (h *HttpUserHandler) DeleteUser(c *fiber.Ctx) error {
 
 func validatePatchUser(user *entities.User) (string, error) {
 
-	if user.Name == "" {
-		return "username is invalid", apperror.ErrInvalidData
+	if user.IsBan {
+		// return "username is invalid", apperror.ErrInvalidData
 	}
 
 	return "", nil

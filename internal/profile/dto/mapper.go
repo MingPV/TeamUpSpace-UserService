@@ -1,6 +1,8 @@
 package dto
 
-import "github.com/MingPV/UserService/internal/entities"
+import (
+	"github.com/MingPV/UserService/internal/entities"
+)
 
 func ToProfileResponse(profile *entities.Profile) *ProfileResponse {
 	return &ProfileResponse{

@@ -28,7 +28,7 @@ func RegisterPublicRoutes(app fiber.Router, db *gorm.DB) {
 
 	// User
 	userRepo := userRepository.NewGormUserRepository(db)
-	UserService := userUseCase.NewUserService(userRepo)
+	UserService := userUseCase.NewUserService(userRepo, profileRepo)
 	userHandler := userHandler.NewHttpUserHandler(UserService)
 
 	// === Public Routes ===

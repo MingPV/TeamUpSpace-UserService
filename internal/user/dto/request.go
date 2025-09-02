@@ -1,9 +1,13 @@
 package dto
 
+import (
+	profileDTO "github.com/MingPV/UserService/internal/profile/dto"
+)
+
 type RegisterRequest struct {
-	Email    string `json:"email" validate:"required,email"`
-	Password string `json:"password" validate:"required,min=6"`
-	Name     string `json:"name" validate:"required"`
+	Email    string                          `json:"email" validate:"required,email"`
+	Password string                          `json:"password" validate:"required,min=6"`
+	Profile  profileDTO.CreateProfileRequest `json:"profile"`
 }
 
 type LoginRequest struct {
@@ -12,5 +16,5 @@ type LoginRequest struct {
 }
 
 type PatchUserRequest struct {
-	Name string `json:"name" validate:"required"`
+	IsBan bool `json:"is_ban"`
 }

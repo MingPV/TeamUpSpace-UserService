@@ -21,7 +21,9 @@ func (r *GormUserRepository) Save(user *entities.User) error {
 
 func (r *GormUserRepository) FindByEmail(email string) (*entities.User, error) {
 	var user entities.User
-	if err := r.db.Where("email = ?", email).First(&user).Error; err != nil {
+	if err := r.db.
+		Preload("Profile").
+		Where("email = ?", email).First(&user).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return nil, gorm.ErrRecordNotFound
 		}
@@ -32,7 +34,7 @@ func (r *GormUserRepository) FindByEmail(email string) (*entities.User, error) {
 
 func (r *GormUserRepository) FindByID(id string) (*entities.User, error) {
 	var user entities.User
-	if err := r.db.First(&user, "id = ?", id).Error; err != nil {
+	if err := r.db.Preload("Profile").First(&user, "id = ?", id).Error; err != nil {
 		return nil, err
 	}
 	return &user, nil
@@ -40,7 +42,7 @@ func (r *GormUserRepository) FindByID(id string) (*entities.User, error) {
 
 func (r *GormUserRepository) FindAll() ([]*entities.User, error) {
 	var userValues []entities.User
-	if err := r.db.Find(&userValues).Error; err != nil {
+	if err := r.db.Preload("Profile").Find(&userValues).Error; err != nil {
 		return nil, err
 	}
 	users := make([]*entities.User, len(userValues))
