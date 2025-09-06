@@ -1,6 +1,7 @@
 package usecase
 
 import (
+	"fmt"
 	"os"
 	"time"
 
@@ -9,7 +10,9 @@ import (
 	userRepo "github.com/MingPV/UserService/internal/user/repository"
 	"github.com/MingPV/UserService/pkg/apperror"
 	"github.com/golang-jwt/jwt/v5"
+	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
+	"golang.org/x/oauth2"
 )
 
 // UserService struct
@@ -85,6 +88,14 @@ func (s *UserService) FindUserByID(id string) (*entities.User, error) {
 	return s.userRepository.FindByID(id)
 }
 
+func (s *UserService) FindUserByEmail(email string) (*entities.User, error) {
+	return s.userRepository.FindByEmail(email)
+}
+
+func (s *UserService) FindUserByUsername(username string) (*entities.User, error) {
+	return s.userRepository.FindByUsername(username)
+}
+
 // UserService Methods - 4 Get all users
 func (s *UserService) FindAllUsers() ([]*entities.User, error) {
 	users, err := s.userRepository.FindAll()
@@ -119,4 +130,57 @@ func (s *UserService) DeleteUser(id string) error {
 		return err
 	}
 	return nil
+}
+
+func (s *UserService) LoginOrRegisterWithGoogle(userInfo map[string]interface{}, token *oauth2.Token) (string, *entities.User, error) {
+	email, _ := userInfo["email"].(string)
+	name, _ := userInfo["name"].(string)
+	picture, _ := userInfo["picture"].(string)
+	fmt.Println(userInfo)
+	// googleID, _ := userInfo["id"].(string)
+
+	// find user by email in database
+	user, err := s.userRepository.FindByEmail(email)
+	if err != nil {
+		// not found -> create
+		user_id := uuid.New()
+		user = &entities.User{
+			ID:       user_id,
+			Email:    email,
+			Password: "",
+		}
+		profile := &entities.Profile{
+			UserID:      user.ID,
+			DisplayName: name,
+			ProfileURL:  picture,
+		}
+
+		// Insert profile first because profile has UserID
+		if err := s.profileRepository.Save(profile); err != nil {
+			return "", nil, err
+		}
+		if err := s.userRepository.Save(user); err != nil {
+			return "", nil, err
+		}
+	}
+
+	// Generate JWT token
+	claims := jwt.MapClaims{
+		"user_id": user.ID,
+		"exp":     time.Now().Add(time.Hour * 72).Unix(), // 3 days
+	}
+
+	jwtToken := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	secret := os.Getenv("JWT_SECRET")
+	tokenString, err := jwtToken.SignedString([]byte(secret))
+	if err != nil {
+		return "", nil, err
+	}
+
+	loggedInUser, err := s.userRepository.FindByID(user.ID.String())
+	if err != nil {
+		return "", nil, apperror.ErrInternalServer
+	}
+
+	return tokenString, loggedInUser, nil
 }

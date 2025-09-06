@@ -11,6 +11,7 @@ import (
 type UserResponse struct {
 	ID       uuid.UUID                  `json:"id"`
 	Email    string                     `json:"email"`
+	Username string                     `json:"username"`
 	IsAdmin  bool                       `json:"is_admin"`
 	IsBan    bool                       `json:"is_ban"`
 	BanUntil time.Time                  `json:"ban_until"`

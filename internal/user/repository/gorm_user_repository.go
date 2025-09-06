@@ -32,6 +32,19 @@ func (r *GormUserRepository) FindByEmail(email string) (*entities.User, error) {
 	return &user, nil
 }
 
+func (r *GormUserRepository) FindByUsername(username string) (*entities.User, error) {
+	var user entities.User
+	if err := r.db.
+		Preload("Profile").
+		Where("username = ?", username).First(&user).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, gorm.ErrRecordNotFound
+		}
+		return nil, err
+	}
+	return &user, nil
+}
+
 func (r *GormUserRepository) FindByID(id string) (*entities.User, error) {
 	var user entities.User
 	if err := r.db.Preload("Profile").First(&user, "id = ?", id).Error; err != nil {

@@ -11,6 +11,7 @@ func ToUserResponse(user *entities.User) *UserResponse {
 	return &UserResponse{
 		ID:       user.ID,
 		Email:    user.Email,
+		Username: user.Username,
 		IsAdmin:  user.IsAdmin,
 		IsBan:    user.IsBan,
 		BanUntil: user.BanUntil,

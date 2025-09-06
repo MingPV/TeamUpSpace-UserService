@@ -9,6 +9,7 @@ import (
 type User struct {
 	ID        uuid.UUID `gorm:"type:uuid;primaryKey" json:"id"`
 	Email     string    `gorm:"uniqueIndex" json:"email"`
+	Username  string    `gorm:"uniqueIndex" json:"username"`
 	Password  string    `json:"password"`
 	IsAdmin   bool      `gorm:"default:false" json:"is_admin"`
 	IsBan     bool      `gorm:"default:false" json:"is_ban"`

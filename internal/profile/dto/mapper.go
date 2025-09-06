@@ -15,6 +15,8 @@ func ToProfileResponse(profile *entities.Profile) *ProfileResponse {
 		IsGraduated:   profile.IsGraduated,
 		ProfileURL:    profile.ProfileURL,
 		BackgroundURL: profile.BackgroundURL,
+		Location:      profile.Location,
+		Country:       profile.Country,
 		CreatedAt:     profile.CreatedAt,
 		UpdatedAt:     profile.UpdatedAt,
 	}

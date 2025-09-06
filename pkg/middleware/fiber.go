@@ -13,7 +13,7 @@ func FiberMiddleware(app *fiber.App) {
 		logger.New(), // Logs all requests
 
 		cors.New(cors.Config{
-			AllowOrigins: "*", // need to be changed in production
+			AllowOrigins: "http://localhost:3000", // need to be changed in production
 			AllowHeaders: "Origin, Content-Type, Accept, Authorization",
 		}),
 	)

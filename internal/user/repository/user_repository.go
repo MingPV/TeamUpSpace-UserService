@@ -5,6 +5,7 @@ import "github.com/MingPV/UserService/internal/entities"
 type UserRepository interface {
 	Save(user *entities.User) error
 	FindByEmail(email string) (*entities.User, error)
+	FindByUsername(username string) (*entities.User, error)
 	FindByID(id string) (*entities.User, error)
 	FindAll() ([]*entities.User, error)
 	Patch(id string, user *entities.User) error

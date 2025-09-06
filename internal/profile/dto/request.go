@@ -12,4 +12,6 @@ type CreateProfileRequest struct {
 	IsGraduated   bool      `json:"is_graduated"`
 	ProfileURL    string    `json:"profile_url"`
 	BackgroundURL string    `json:"background_url"`
+	Location      string    `json:"location"`
+	Country       string    `json:"country"`
 }

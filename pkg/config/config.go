@@ -26,6 +26,10 @@ type Config struct {
 	PgAdminEmail    string
 	PgAdminPassword string
 	PgAdminPort     string
+
+	GoogleClientId     string
+	GoogleClientSecret string
+	GoogleRedirectURL  string
 }
 
 func LoadConfig(env string) *Config {
@@ -42,19 +46,22 @@ func LoadConfig(env string) *Config {
 	jwtExp := getEnvAsInt("JWT_EXPIRATION", 3600)
 
 	cfg := &Config{
-		AppPort:         getEnv("APP_PORT", "8000"),
-		GrpcPort:        getEnv("GRPC_PORT", "50051"),
-		AppEnv:          getEnv("APP_ENV", "development"),
-		DBHost:          getEnv("DB_HOST", "localhost"),
-		DBPort:          getEnv("DB_PORT", "5432"),
-		DBUser:          getEnv("DB_USER", "postgres"),
-		DBPassword:      getEnv("DB_PASSWORD", ""),
-		DBName:          getEnv("DB_NAME", "test"),
-		JWTSecret:       getEnv("JWT_SECRET", "changeme"),
-		JWTExpiration:   jwtExp,
-		PgAdminEmail:    getEnv("PGADMIN_DEFAULT_EMAIL", ""),
-		PgAdminPassword: getEnv("PGADMIN_DEFAULT_PASSWORD", ""),
-		PgAdminPort:     getEnv("PGADMIN_PORT", "5050"),
+		AppPort:            getEnv("APP_PORT", "8000"),
+		GrpcPort:           getEnv("GRPC_PORT", "50051"),
+		AppEnv:             getEnv("APP_ENV", "development"),
+		DBHost:             getEnv("DB_HOST", "localhost"),
+		DBPort:             getEnv("DB_PORT", "5432"),
+		DBUser:             getEnv("DB_USER", "postgres"),
+		DBPassword:         getEnv("DB_PASSWORD", ""),
+		DBName:             getEnv("DB_NAME", "test"),
+		JWTSecret:          getEnv("JWT_SECRET", "changeme"),
+		JWTExpiration:      jwtExp,
+		PgAdminEmail:       getEnv("PGADMIN_DEFAULT_EMAIL", ""),
+		PgAdminPassword:    getEnv("PGADMIN_DEFAULT_PASSWORD", ""),
+		PgAdminPort:        getEnv("PGADMIN_PORT", "5050"),
+		GoogleClientId:     getEnv("GOOGLE_OAUTH_CLIENT_ID", ""),
+		GoogleClientSecret: getEnv("GOOGLE_OAUTH_CLIENT_SECRET", ""),
+		GoogleRedirectURL:  getEnv("GOOGLE_OAUTH_REDIRECT_URL", ""),
 	}
 
 	cfg.DatabaseDSN = fmt.Sprintf(

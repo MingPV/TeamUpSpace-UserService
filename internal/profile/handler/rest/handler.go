@@ -40,6 +40,8 @@ func (h *HttpProfileHandler) CreateProfile(c *fiber.Ctx) error {
 		IsGraduated:   req.IsGraduated,
 		ProfileURL:    req.ProfileURL,
 		BackgroundURL: req.BackgroundURL,
+		Location:      req.Location,
+		Country:       req.Country,
 	}
 
 	if err := h.profileUseCase.CreateProfile(profile); err != nil {
@@ -108,6 +110,8 @@ func (h *HttpProfileHandler) PatchProfile(c *fiber.Ctx) error {
 		IsGraduated:   req.IsGraduated,
 		ProfileURL:    req.ProfileURL,
 		BackgroundURL: req.BackgroundURL,
+		Location:      req.Location,
+		Country:       req.Country,
 	}
 
 	msg, err := validatePatchProfile(profile)

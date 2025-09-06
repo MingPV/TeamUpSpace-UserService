@@ -1,6 +1,8 @@
 package routes
 
 import (
+	"os"
+
 	profileRepository "github.com/MingPV/UserService/internal/profile/repository"
 	userHandler "github.com/MingPV/UserService/internal/user/handler/rest"
 	userRepository "github.com/MingPV/UserService/internal/user/repository"
@@ -21,7 +23,7 @@ func RegisterPrivateRoutes(app fiber.Router, db *gorm.DB) {
 	// User
 	userRepo := userRepository.NewGormUserRepository(db)
 	UserService := userUseCase.NewUserService(userRepo, profileRepo)
-	userHandler := userHandler.NewHttpUserHandler(UserService)
+	userHandler := userHandler.NewHttpUserHandler(UserService, os.Getenv("GOOGLE_OAUTH_CLIENT_ID"), os.Getenv("GOOGLE_OAUTH_CLIENT_SECRET"), os.Getenv("GOOGLE_OAUTH_REDIRECT_URL"))
 
 	route.Get("/me", userHandler.GetUser)
 }
