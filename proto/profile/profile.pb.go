@@ -9,6 +9,7 @@ package profilepb
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
@@ -23,8 +24,19 @@ const (
 
 type Profile struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            int32                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	Total         float64                `protobuf:"fixed64,2,opt,name=total,proto3" json:"total,omitempty"`
+	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	DisplayName   string                 `protobuf:"bytes,2,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
+	Description   string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
+	Age           int32                  `protobuf:"varint,4,opt,name=age,proto3" json:"age,omitempty"`
+	University    string                 `protobuf:"bytes,5,opt,name=university,proto3" json:"university,omitempty"`
+	Year          int32                  `protobuf:"varint,6,opt,name=year,proto3" json:"year,omitempty"`
+	IsGraduated   bool                   `protobuf:"varint,7,opt,name=is_graduated,json=isGraduated,proto3" json:"is_graduated,omitempty"`
+	ProfileUrl    string                 `protobuf:"bytes,8,opt,name=profile_url,json=profileUrl,proto3" json:"profile_url,omitempty"`
+	BackgroundUrl string                 `protobuf:"bytes,9,opt,name=background_url,json=backgroundUrl,proto3" json:"background_url,omitempty"`
+	Location      string                 `protobuf:"bytes,10,opt,name=location,proto3" json:"location,omitempty"`
+	Country       string                 `protobuf:"bytes,11,opt,name=country,proto3" json:"country,omitempty"`
+	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,12,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,13,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -59,23 +71,110 @@ func (*Profile) Descriptor() ([]byte, []int) {
 	return file_proto_profile_profile_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *Profile) GetId() int32 {
+func (x *Profile) GetUserId() string {
 	if x != nil {
-		return x.Id
+		return x.UserId
+	}
+	return ""
+}
+
+func (x *Profile) GetDisplayName() string {
+	if x != nil {
+		return x.DisplayName
+	}
+	return ""
+}
+
+func (x *Profile) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+func (x *Profile) GetAge() int32 {
+	if x != nil {
+		return x.Age
 	}
 	return 0
 }
 
-func (x *Profile) GetTotal() float64 {
+func (x *Profile) GetUniversity() string {
 	if x != nil {
-		return x.Total
+		return x.University
+	}
+	return ""
+}
+
+func (x *Profile) GetYear() int32 {
+	if x != nil {
+		return x.Year
 	}
 	return 0
+}
+
+func (x *Profile) GetIsGraduated() bool {
+	if x != nil {
+		return x.IsGraduated
+	}
+	return false
+}
+
+func (x *Profile) GetProfileUrl() string {
+	if x != nil {
+		return x.ProfileUrl
+	}
+	return ""
+}
+
+func (x *Profile) GetBackgroundUrl() string {
+	if x != nil {
+		return x.BackgroundUrl
+	}
+	return ""
+}
+
+func (x *Profile) GetLocation() string {
+	if x != nil {
+		return x.Location
+	}
+	return ""
+}
+
+func (x *Profile) GetCountry() string {
+	if x != nil {
+		return x.Country
+	}
+	return ""
+}
+
+func (x *Profile) GetCreatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return nil
+}
+
+func (x *Profile) GetUpdatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.UpdatedAt
+	}
+	return nil
 }
 
 type CreateProfileRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Total         float64                `protobuf:"fixed64,1,opt,name=total,proto3" json:"total,omitempty"`
+	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	DisplayName   string                 `protobuf:"bytes,2,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
+	Description   string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
+	Age           int32                  `protobuf:"varint,4,opt,name=age,proto3" json:"age,omitempty"`
+	University    string                 `protobuf:"bytes,5,opt,name=university,proto3" json:"university,omitempty"`
+	Year          int32                  `protobuf:"varint,6,opt,name=year,proto3" json:"year,omitempty"`
+	IsGraduated   bool                   `protobuf:"varint,7,opt,name=is_graduated,json=isGraduated,proto3" json:"is_graduated,omitempty"`
+	ProfileUrl    string                 `protobuf:"bytes,8,opt,name=profile_url,json=profileUrl,proto3" json:"profile_url,omitempty"`
+	BackgroundUrl string                 `protobuf:"bytes,9,opt,name=background_url,json=backgroundUrl,proto3" json:"background_url,omitempty"`
+	Location      string                 `protobuf:"bytes,10,opt,name=location,proto3" json:"location,omitempty"`
+	Country       string                 `protobuf:"bytes,11,opt,name=country,proto3" json:"country,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -110,11 +209,81 @@ func (*CreateProfileRequest) Descriptor() ([]byte, []int) {
 	return file_proto_profile_profile_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *CreateProfileRequest) GetTotal() float64 {
+func (x *CreateProfileRequest) GetUserId() string {
 	if x != nil {
-		return x.Total
+		return x.UserId
+	}
+	return ""
+}
+
+func (x *CreateProfileRequest) GetDisplayName() string {
+	if x != nil {
+		return x.DisplayName
+	}
+	return ""
+}
+
+func (x *CreateProfileRequest) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+func (x *CreateProfileRequest) GetAge() int32 {
+	if x != nil {
+		return x.Age
 	}
 	return 0
+}
+
+func (x *CreateProfileRequest) GetUniversity() string {
+	if x != nil {
+		return x.University
+	}
+	return ""
+}
+
+func (x *CreateProfileRequest) GetYear() int32 {
+	if x != nil {
+		return x.Year
+	}
+	return 0
+}
+
+func (x *CreateProfileRequest) GetIsGraduated() bool {
+	if x != nil {
+		return x.IsGraduated
+	}
+	return false
+}
+
+func (x *CreateProfileRequest) GetProfileUrl() string {
+	if x != nil {
+		return x.ProfileUrl
+	}
+	return ""
+}
+
+func (x *CreateProfileRequest) GetBackgroundUrl() string {
+	if x != nil {
+		return x.BackgroundUrl
+	}
+	return ""
+}
+
+func (x *CreateProfileRequest) GetLocation() string {
+	if x != nil {
+		return x.Location
+	}
+	return ""
+}
+
+func (x *CreateProfileRequest) GetCountry() string {
+	if x != nil {
+		return x.Country
+	}
+	return ""
 }
 
 type CreateProfileResponse struct {
@@ -163,7 +332,7 @@ func (x *CreateProfileResponse) GetProfile() *Profile {
 
 type FindProfileByIDRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            int32                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -198,11 +367,11 @@ func (*FindProfileByIDRequest) Descriptor() ([]byte, []int) {
 	return file_proto_profile_profile_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *FindProfileByIDRequest) GetId() int32 {
+func (x *FindProfileByIDRequest) GetUserId() string {
 	if x != nil {
-		return x.Id
+		return x.UserId
 	}
-	return 0
+	return ""
 }
 
 type FindProfileByIDResponse struct {
@@ -331,8 +500,17 @@ func (x *FindAllProfilesResponse) GetProfiles() []*Profile {
 
 type PatchProfileRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            int32                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	Total         float64                `protobuf:"fixed64,2,opt,name=total,proto3" json:"total,omitempty"`
+	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	DisplayName   string                 `protobuf:"bytes,2,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
+	Description   string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
+	Age           int32                  `protobuf:"varint,4,opt,name=age,proto3" json:"age,omitempty"`
+	University    string                 `protobuf:"bytes,5,opt,name=university,proto3" json:"university,omitempty"`
+	Year          int32                  `protobuf:"varint,6,opt,name=year,proto3" json:"year,omitempty"`
+	IsGraduated   bool                   `protobuf:"varint,7,opt,name=is_graduated,json=isGraduated,proto3" json:"is_graduated,omitempty"`
+	ProfileUrl    string                 `protobuf:"bytes,8,opt,name=profile_url,json=profileUrl,proto3" json:"profile_url,omitempty"`
+	BackgroundUrl string                 `protobuf:"bytes,9,opt,name=background_url,json=backgroundUrl,proto3" json:"background_url,omitempty"`
+	Location      string                 `protobuf:"bytes,10,opt,name=location,proto3" json:"location,omitempty"`
+	Country       string                 `protobuf:"bytes,11,opt,name=country,proto3" json:"country,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -367,18 +545,81 @@ func (*PatchProfileRequest) Descriptor() ([]byte, []int) {
 	return file_proto_profile_profile_proto_rawDescGZIP(), []int{7}
 }
 
-func (x *PatchProfileRequest) GetId() int32 {
+func (x *PatchProfileRequest) GetUserId() string {
 	if x != nil {
-		return x.Id
+		return x.UserId
+	}
+	return ""
+}
+
+func (x *PatchProfileRequest) GetDisplayName() string {
+	if x != nil {
+		return x.DisplayName
+	}
+	return ""
+}
+
+func (x *PatchProfileRequest) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+func (x *PatchProfileRequest) GetAge() int32 {
+	if x != nil {
+		return x.Age
 	}
 	return 0
 }
 
-func (x *PatchProfileRequest) GetTotal() float64 {
+func (x *PatchProfileRequest) GetUniversity() string {
 	if x != nil {
-		return x.Total
+		return x.University
+	}
+	return ""
+}
+
+func (x *PatchProfileRequest) GetYear() int32 {
+	if x != nil {
+		return x.Year
 	}
 	return 0
+}
+
+func (x *PatchProfileRequest) GetIsGraduated() bool {
+	if x != nil {
+		return x.IsGraduated
+	}
+	return false
+}
+
+func (x *PatchProfileRequest) GetProfileUrl() string {
+	if x != nil {
+		return x.ProfileUrl
+	}
+	return ""
+}
+
+func (x *PatchProfileRequest) GetBackgroundUrl() string {
+	if x != nil {
+		return x.BackgroundUrl
+	}
+	return ""
+}
+
+func (x *PatchProfileRequest) GetLocation() string {
+	if x != nil {
+		return x.Location
+	}
+	return ""
+}
+
+func (x *PatchProfileRequest) GetCountry() string {
+	if x != nil {
+		return x.Country
+	}
+	return ""
 }
 
 type PatchProfileResponse struct {
@@ -427,7 +668,7 @@ func (x *PatchProfileResponse) GetProfile() *Profile {
 
 type DeleteProfileRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            int32                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -462,11 +703,11 @@ func (*DeleteProfileRequest) Descriptor() ([]byte, []int) {
 	return file_proto_profile_profile_proto_rawDescGZIP(), []int{9}
 }
 
-func (x *DeleteProfileRequest) GetId() int32 {
+func (x *DeleteProfileRequest) GetUserId() string {
 	if x != nil {
-		return x.Id
+		return x.UserId
 	}
-	return 0
+	return ""
 }
 
 type DeleteProfileResponse struct {
@@ -517,28 +758,72 @@ var File_proto_profile_profile_proto protoreflect.FileDescriptor
 
 const file_proto_profile_profile_proto_rawDesc = "" +
 	"\n" +
-	"\x1bproto/profile/profile.proto\x12\aprofile\"/\n" +
-	"\aProfile\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x05R\x02id\x12\x14\n" +
-	"\x05total\x18\x02 \x01(\x01R\x05total\",\n" +
-	"\x14CreateProfileRequest\x12\x14\n" +
-	"\x05total\x18\x01 \x01(\x01R\x05total\"C\n" +
+	"\x1bproto/profile/profile.proto\x12\aprofile\x1a\x1fgoogle/protobuf/timestamp.proto\"\xc4\x03\n" +
+	"\aProfile\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\tR\x06userId\x12!\n" +
+	"\fdisplay_name\x18\x02 \x01(\tR\vdisplayName\x12 \n" +
+	"\vdescription\x18\x03 \x01(\tR\vdescription\x12\x10\n" +
+	"\x03age\x18\x04 \x01(\x05R\x03age\x12\x1e\n" +
+	"\n" +
+	"university\x18\x05 \x01(\tR\n" +
+	"university\x12\x12\n" +
+	"\x04year\x18\x06 \x01(\x05R\x04year\x12!\n" +
+	"\fis_graduated\x18\a \x01(\bR\visGraduated\x12\x1f\n" +
+	"\vprofile_url\x18\b \x01(\tR\n" +
+	"profileUrl\x12%\n" +
+	"\x0ebackground_url\x18\t \x01(\tR\rbackgroundUrl\x12\x1a\n" +
+	"\blocation\x18\n" +
+	" \x01(\tR\blocation\x12\x18\n" +
+	"\acountry\x18\v \x01(\tR\acountry\x129\n" +
+	"\n" +
+	"created_at\x18\f \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
+	"\n" +
+	"updated_at\x18\r \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\"\xdb\x02\n" +
+	"\x14CreateProfileRequest\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\tR\x06userId\x12!\n" +
+	"\fdisplay_name\x18\x02 \x01(\tR\vdisplayName\x12 \n" +
+	"\vdescription\x18\x03 \x01(\tR\vdescription\x12\x10\n" +
+	"\x03age\x18\x04 \x01(\x05R\x03age\x12\x1e\n" +
+	"\n" +
+	"university\x18\x05 \x01(\tR\n" +
+	"university\x12\x12\n" +
+	"\x04year\x18\x06 \x01(\x05R\x04year\x12!\n" +
+	"\fis_graduated\x18\a \x01(\bR\visGraduated\x12\x1f\n" +
+	"\vprofile_url\x18\b \x01(\tR\n" +
+	"profileUrl\x12%\n" +
+	"\x0ebackground_url\x18\t \x01(\tR\rbackgroundUrl\x12\x1a\n" +
+	"\blocation\x18\n" +
+	" \x01(\tR\blocation\x12\x18\n" +
+	"\acountry\x18\v \x01(\tR\acountry\"C\n" +
 	"\x15CreateProfileResponse\x12*\n" +
-	"\aprofile\x18\x01 \x01(\v2\x10.profile.ProfileR\aprofile\"(\n" +
-	"\x16FindProfileByIDRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x05R\x02id\"E\n" +
+	"\aprofile\x18\x01 \x01(\v2\x10.profile.ProfileR\aprofile\"1\n" +
+	"\x16FindProfileByIDRequest\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\tR\x06userId\"E\n" +
 	"\x17FindProfileByIDResponse\x12*\n" +
 	"\aprofile\x18\x01 \x01(\v2\x10.profile.ProfileR\aprofile\"\x18\n" +
 	"\x16FindAllProfilesRequest\"G\n" +
 	"\x17FindAllProfilesResponse\x12,\n" +
-	"\bprofiles\x18\x01 \x03(\v2\x10.profile.ProfileR\bprofiles\";\n" +
-	"\x13PatchProfileRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x05R\x02id\x12\x14\n" +
-	"\x05total\x18\x02 \x01(\x01R\x05total\"B\n" +
+	"\bprofiles\x18\x01 \x03(\v2\x10.profile.ProfileR\bprofiles\"\xda\x02\n" +
+	"\x13PatchProfileRequest\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\tR\x06userId\x12!\n" +
+	"\fdisplay_name\x18\x02 \x01(\tR\vdisplayName\x12 \n" +
+	"\vdescription\x18\x03 \x01(\tR\vdescription\x12\x10\n" +
+	"\x03age\x18\x04 \x01(\x05R\x03age\x12\x1e\n" +
+	"\n" +
+	"university\x18\x05 \x01(\tR\n" +
+	"university\x12\x12\n" +
+	"\x04year\x18\x06 \x01(\x05R\x04year\x12!\n" +
+	"\fis_graduated\x18\a \x01(\bR\visGraduated\x12\x1f\n" +
+	"\vprofile_url\x18\b \x01(\tR\n" +
+	"profileUrl\x12%\n" +
+	"\x0ebackground_url\x18\t \x01(\tR\rbackgroundUrl\x12\x1a\n" +
+	"\blocation\x18\n" +
+	" \x01(\tR\blocation\x12\x18\n" +
+	"\acountry\x18\v \x01(\tR\acountry\"B\n" +
 	"\x14PatchProfileResponse\x12*\n" +
-	"\aprofile\x18\x01 \x01(\v2\x10.profile.ProfileR\aprofile\"&\n" +
-	"\x14DeleteProfileRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x05R\x02id\"1\n" +
+	"\aprofile\x18\x01 \x01(\v2\x10.profile.ProfileR\aprofile\"/\n" +
+	"\x14DeleteProfileRequest\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\tR\x06userId\"1\n" +
 	"\x15DeleteProfileResponse\x12\x18\n" +
 	"\amessage\x18\x01 \x01(\tR\amessage2\xa9\x03\n" +
 	"\x0eProfileService\x12N\n" +
@@ -573,27 +858,30 @@ var file_proto_profile_profile_proto_goTypes = []any{
 	(*PatchProfileResponse)(nil),    // 8: profile.PatchProfileResponse
 	(*DeleteProfileRequest)(nil),    // 9: profile.DeleteProfileRequest
 	(*DeleteProfileResponse)(nil),   // 10: profile.DeleteProfileResponse
+	(*timestamppb.Timestamp)(nil),   // 11: google.protobuf.Timestamp
 }
 var file_proto_profile_profile_proto_depIdxs = []int32{
-	0,  // 0: profile.CreateProfileResponse.profile:type_name -> profile.Profile
-	0,  // 1: profile.FindProfileByIDResponse.profile:type_name -> profile.Profile
-	0,  // 2: profile.FindAllProfilesResponse.profiles:type_name -> profile.Profile
-	0,  // 3: profile.PatchProfileResponse.profile:type_name -> profile.Profile
-	1,  // 4: profile.ProfileService.CreateProfile:input_type -> profile.CreateProfileRequest
-	3,  // 5: profile.ProfileService.FindProfileByID:input_type -> profile.FindProfileByIDRequest
-	5,  // 6: profile.ProfileService.FindAllProfiles:input_type -> profile.FindAllProfilesRequest
-	7,  // 7: profile.ProfileService.PatchProfile:input_type -> profile.PatchProfileRequest
-	9,  // 8: profile.ProfileService.DeleteProfile:input_type -> profile.DeleteProfileRequest
-	2,  // 9: profile.ProfileService.CreateProfile:output_type -> profile.CreateProfileResponse
-	4,  // 10: profile.ProfileService.FindProfileByID:output_type -> profile.FindProfileByIDResponse
-	6,  // 11: profile.ProfileService.FindAllProfiles:output_type -> profile.FindAllProfilesResponse
-	8,  // 12: profile.ProfileService.PatchProfile:output_type -> profile.PatchProfileResponse
-	10, // 13: profile.ProfileService.DeleteProfile:output_type -> profile.DeleteProfileResponse
-	9,  // [9:14] is the sub-list for method output_type
-	4,  // [4:9] is the sub-list for method input_type
-	4,  // [4:4] is the sub-list for extension type_name
-	4,  // [4:4] is the sub-list for extension extendee
-	0,  // [0:4] is the sub-list for field type_name
+	11, // 0: profile.Profile.created_at:type_name -> google.protobuf.Timestamp
+	11, // 1: profile.Profile.updated_at:type_name -> google.protobuf.Timestamp
+	0,  // 2: profile.CreateProfileResponse.profile:type_name -> profile.Profile
+	0,  // 3: profile.FindProfileByIDResponse.profile:type_name -> profile.Profile
+	0,  // 4: profile.FindAllProfilesResponse.profiles:type_name -> profile.Profile
+	0,  // 5: profile.PatchProfileResponse.profile:type_name -> profile.Profile
+	1,  // 6: profile.ProfileService.CreateProfile:input_type -> profile.CreateProfileRequest
+	3,  // 7: profile.ProfileService.FindProfileByID:input_type -> profile.FindProfileByIDRequest
+	5,  // 8: profile.ProfileService.FindAllProfiles:input_type -> profile.FindAllProfilesRequest
+	7,  // 9: profile.ProfileService.PatchProfile:input_type -> profile.PatchProfileRequest
+	9,  // 10: profile.ProfileService.DeleteProfile:input_type -> profile.DeleteProfileRequest
+	2,  // 11: profile.ProfileService.CreateProfile:output_type -> profile.CreateProfileResponse
+	4,  // 12: profile.ProfileService.FindProfileByID:output_type -> profile.FindProfileByIDResponse
+	6,  // 13: profile.ProfileService.FindAllProfiles:output_type -> profile.FindAllProfilesResponse
+	8,  // 14: profile.ProfileService.PatchProfile:output_type -> profile.PatchProfileResponse
+	10, // 15: profile.ProfileService.DeleteProfile:output_type -> profile.DeleteProfileResponse
+	11, // [11:16] is the sub-list for method output_type
+	6,  // [6:11] is the sub-list for method input_type
+	6,  // [6:6] is the sub-list for extension type_name
+	6,  // [6:6] is the sub-list for extension extendee
+	0,  // [0:6] is the sub-list for field type_name
 }
 
 func init() { file_proto_profile_profile_proto_init() }

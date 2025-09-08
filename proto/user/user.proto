@@ -1,0 +1,131 @@
+syntax = "proto3";
+
+package user;
+
+option go_package = "github.com/MingPV/UserService/proto/userpb";
+
+import "google/protobuf/timestamp.proto";
+
+// ----------- Messages -------------
+
+message User {
+  string id = 1;
+  string email = 2;
+  string username = 3;
+  string password = 4;
+  bool is_admin = 5;
+  bool is_ban = 6;
+  google.protobuf.Timestamp ban_until = 7;
+  google.protobuf.Timestamp created_at = 8;
+  google.protobuf.Timestamp updated_at = 9;
+  Profile profile = 10;
+}
+
+message Profile {
+  string user_id = 1;
+  string display_name = 2;
+  string description = 3;
+  int32 age = 4;
+  string university = 5;
+  int32 year = 6;
+  bool is_graduated = 7;
+  string profile_url = 8;
+  string background_url = 9;
+}
+
+// ----------- Requests -------------
+
+message RegisterRequest {
+  string email = 1;
+  string username = 2;
+  string password = 3;
+  Profile profile = 4;
+}
+
+message LoginRequest {
+  string email = 1;
+  string password = 2;
+}
+
+message PatchUserRequest {
+  string id = 1;
+  bool is_ban = 2;
+}
+
+message FindByIDRequest {
+  string id = 1;
+}
+
+message FindByEmailRequest {
+  string email = 1;
+}
+
+message FindByUsernameRequest {
+  string username = 1;
+}
+
+message Empty {}
+
+
+// ----------- Responses -------------
+
+message UserResponse {
+  User user = 1;
+  string token = 2; // JWT token (for login / google login)
+}
+
+message UsersResponse {
+  repeated User users = 1;
+}
+
+message RegisterResponse {
+  User user = 1;
+}
+
+message LoginResponse {
+  User user = 1;
+  string token = 2;
+}
+
+message PatchUserResponse {
+  User user = 1;
+}
+
+message DeleteUserResponse {
+  string message = 1;
+}
+
+message LogoutResponse {
+  string message = 1;
+}
+
+message GoogleLoginResponse {
+  string message = 1;
+}
+
+message GoogleCallbackResponse {
+  User user = 1;
+  string token = 2;
+}
+
+
+// ----------- Service -------------
+
+service UserService {
+  rpc Register(RegisterRequest) returns (RegisterResponse);
+  rpc Login(LoginRequest) returns (LoginResponse);
+  rpc Logout(Empty) returns (LogoutResponse);
+
+  rpc GetUser(FindByIDRequest) returns (UserResponse);
+  rpc FindUserByID(FindByIDRequest) returns (UserResponse);
+  rpc FindUserByEmail(FindByEmailRequest) returns (UserResponse);
+  rpc FindUserByUsername(FindByUsernameRequest) returns (UserResponse);
+  rpc FindAllUsers(Empty) returns (UsersResponse);
+
+  rpc PatchUser(PatchUserRequest) returns (PatchUserResponse);
+  rpc DeleteUser(FindByIDRequest) returns (DeleteUserResponse);
+
+  // Google OAuth
+  rpc GoogleLogin(Empty) returns (GoogleLoginResponse);
+  rpc GoogleCallback(Empty) returns (GoogleCallbackResponse);
+}

@@ -6,10 +6,14 @@ import (
 	"gorm.io/gorm"
 
 	"github.com/MingPV/UserService/internal/entities"
+	GrpcProfileHandler "github.com/MingPV/UserService/internal/profile/handler/grpc"
+	profileRepository "github.com/MingPV/UserService/internal/profile/repository"
+	profileUseCase "github.com/MingPV/UserService/internal/profile/usecase"
 	"github.com/MingPV/UserService/pkg/config"
 	"github.com/MingPV/UserService/pkg/database"
 	"github.com/MingPV/UserService/pkg/middleware"
 	"github.com/MingPV/UserService/pkg/routes"
+	profilepb "github.com/MingPV/UserService/proto/profile"
 )
 
 // rest
@@ -27,11 +31,16 @@ func SetupRestServer(db *gorm.DB, cfg *config.Config) (*fiber.App, error) {
 // grpc
 func SetupGrpcServer(db *gorm.DB, cfg *config.Config) (*grpc.Server, error) {
 	s := grpc.NewServer()
-	// profileRepo := profileRepository.NewGormProfileRepository(db)
-	// profileService := profileUseCase.NewProfileService(profileRepo)
 
-	// profileHandler := GrpcProfileHandler.NewGrpcProfileHandler(profileService)
-	// profilepb.RegisterProfileServiceServer(s, profileHandler)
+	// === Dependency Wiring ===
+	// Profile
+	profileRepo := profileRepository.NewGormProfileRepository(db)
+	profileService := profileUseCase.NewProfileService(profileRepo)
+
+	// === Register gRPC Services ===
+	// Profile
+	profileHandler := GrpcProfileHandler.NewGrpcProfileHandler(profileService)
+	profilepb.RegisterProfileServiceServer(s, profileHandler)
 	return s, nil
 }
 
