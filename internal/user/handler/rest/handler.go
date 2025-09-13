@@ -350,7 +350,7 @@ func (h *HttpUserHandler) GoogleCallback(c *fiber.Ctx) error {
 		Name:     "token",
 		Value:    jwtToken,
 		Expires:  time.Now().Add(24 * time.Hour),
-		HTTPOnly: true,
+		HTTPOnly: false,
 		Secure:   false, // set to false if not using HTTPS in development
 		SameSite: "Lax",
 	})

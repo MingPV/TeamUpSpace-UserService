@@ -148,6 +148,7 @@ func (s *UserService) LoginOrRegisterWithGoogle(userInfo map[string]interface{},
 		user = &entities.User{
 			ID:       user_id,
 			Email:    email,
+			Username: user_id.String(),
 			Password: "",
 		}
 		profile := &entities.Profile{
@@ -164,11 +165,13 @@ func (s *UserService) LoginOrRegisterWithGoogle(userInfo map[string]interface{},
 			return "", nil, err
 		}
 	}
+	user.Password = ""
 
 	// Generate JWT token
 	claims := jwt.MapClaims{
-		"user_id": user.ID,
-		"exp":     time.Now().Add(time.Hour * 72).Unix(), // 3 days
+		"user_id":   user.ID,
+		"user_info": user,
+		"exp":       time.Now().Add(time.Hour * 72).Unix(), // 3 days
 	}
 
 	jwtToken := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
