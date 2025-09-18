@@ -11,12 +11,14 @@ message UserReport {
   string reporter = 2;
   string report_to = 3;
   string detail = 4;
+  string status = 5;
 }
 
 message CreateUserReportRequest {
   string reporter = 1;
   string report_to = 2;
   string detail = 3;
+  string status = 4;
 }
 
 message CreateUserReportResponse {
@@ -55,7 +57,8 @@ message FindAllUserReportsResponse {
 
 message PatchUserReportRequest {
   int32 id = 1;
-  string detail = 2;
+  optional string detail = 2;
+  optional string status = 3;
 }
 
 message PatchUserReportResponse {

@@ -11,6 +11,7 @@ type UserReport struct {
 	Reporter  uuid.UUID `gorm:"type:uuid;not null" json:"reporter"`
 	ReportTo  uuid.UUID `gorm:"type:uuid;not null" json:"report_to"`
 	Detail    string    `gorm:"type:text;not null" json:"detail"`
+	Status    string    `gorm:"size:50;default:'pending'" json:"status"`
 	CreatedAt time.Time `gorm:"autoCreateTime" json:"created_at"`
 	UpdatedAt time.Time `gorm:"autoUpdateTime" json:"updated_at"`
 

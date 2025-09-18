@@ -34,6 +34,7 @@ func (h *GrpcUserReportHandler) CreateUserReport(ctx context.Context, req *userr
 		Reporter: reporter,
 		ReportTo: reportTo,
 		Detail:   req.Detail,
+		Status:   req.Status,
 	}
 
 	created, err := h.userReportUseCase.CreateUserReport(ur)
@@ -105,8 +106,13 @@ func (h *GrpcUserReportHandler) FindAllUserReports(ctx context.Context, req *use
 }
 
 func (h *GrpcUserReportHandler) PatchUserReport(ctx context.Context, req *userreportpb.PatchUserReportRequest) (*userreportpb.PatchUserReportResponse, error) {
-	update := &entities.UserReport{
-		Detail: req.Detail,
+	update := &entities.UserReport{}
+
+	if req.Detail != nil {
+		update.Detail = req.GetDetail()
+	}
+	if req.Status != nil {
+		update.Status = req.GetStatus()
 	}
 
 	updated, err := h.userReportUseCase.PatchUserReport(int(req.Id), update)
@@ -134,5 +140,6 @@ func toProtoUserReport(ur *entities.UserReport) *userreportpb.UserReport {
 		Reporter: ur.Reporter.String(),
 		ReportTo: ur.ReportTo.String(),
 		Detail:   ur.Detail,
+		Status:   ur.Status,
 	}
 }

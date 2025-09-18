@@ -28,6 +28,7 @@ type UserReport struct {
 	Reporter      string                 `protobuf:"bytes,2,opt,name=reporter,proto3" json:"reporter,omitempty"`
 	ReportTo      string                 `protobuf:"bytes,3,opt,name=report_to,json=reportTo,proto3" json:"report_to,omitempty"`
 	Detail        string                 `protobuf:"bytes,4,opt,name=detail,proto3" json:"detail,omitempty"`
+	Status        string                 `protobuf:"bytes,5,opt,name=status,proto3" json:"status,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -90,11 +91,19 @@ func (x *UserReport) GetDetail() string {
 	return ""
 }
 
+func (x *UserReport) GetStatus() string {
+	if x != nil {
+		return x.Status
+	}
+	return ""
+}
+
 type CreateUserReportRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Reporter      string                 `protobuf:"bytes,1,opt,name=reporter,proto3" json:"reporter,omitempty"`
 	ReportTo      string                 `protobuf:"bytes,2,opt,name=report_to,json=reportTo,proto3" json:"report_to,omitempty"`
 	Detail        string                 `protobuf:"bytes,3,opt,name=detail,proto3" json:"detail,omitempty"`
+	Status        string                 `protobuf:"bytes,4,opt,name=status,proto3" json:"status,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -146,6 +155,13 @@ func (x *CreateUserReportRequest) GetReportTo() string {
 func (x *CreateUserReportRequest) GetDetail() string {
 	if x != nil {
 		return x.Detail
+	}
+	return ""
+}
+
+func (x *CreateUserReportRequest) GetStatus() string {
+	if x != nil {
+		return x.Status
 	}
 	return ""
 }
@@ -541,7 +557,8 @@ func (x *FindAllUserReportsResponse) GetUserReports() []*UserReport {
 type PatchUserReportRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            int32                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	Detail        string                 `protobuf:"bytes,2,opt,name=detail,proto3" json:"detail,omitempty"`
+	Detail        *string                `protobuf:"bytes,2,opt,name=detail,proto3,oneof" json:"detail,omitempty"`
+	Status        *string                `protobuf:"bytes,3,opt,name=status,proto3,oneof" json:"status,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -584,8 +601,15 @@ func (x *PatchUserReportRequest) GetId() int32 {
 }
 
 func (x *PatchUserReportRequest) GetDetail() string {
-	if x != nil {
-		return x.Detail
+	if x != nil && x.Detail != nil {
+		return *x.Detail
+	}
+	return ""
+}
+
+func (x *PatchUserReportRequest) GetStatus() string {
+	if x != nil && x.Status != nil {
+		return *x.Status
 	}
 	return ""
 }
@@ -727,17 +751,19 @@ var File_proto_userreport_userreport_proto protoreflect.FileDescriptor
 const file_proto_userreport_userreport_proto_rawDesc = "" +
 	"\n" +
 	"!proto/userreport/userreport.proto\x12\n" +
-	"userreport\x1a\x1fgoogle/protobuf/timestamp.proto\"m\n" +
+	"userreport\x1a\x1fgoogle/protobuf/timestamp.proto\"\x85\x01\n" +
 	"\n" +
 	"UserReport\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x05R\x02id\x12\x1a\n" +
 	"\breporter\x18\x02 \x01(\tR\breporter\x12\x1b\n" +
 	"\treport_to\x18\x03 \x01(\tR\breportTo\x12\x16\n" +
-	"\x06detail\x18\x04 \x01(\tR\x06detail\"j\n" +
+	"\x06detail\x18\x04 \x01(\tR\x06detail\x12\x16\n" +
+	"\x06status\x18\x05 \x01(\tR\x06status\"\x82\x01\n" +
 	"\x17CreateUserReportRequest\x12\x1a\n" +
 	"\breporter\x18\x01 \x01(\tR\breporter\x12\x1b\n" +
 	"\treport_to\x18\x02 \x01(\tR\breportTo\x12\x16\n" +
-	"\x06detail\x18\x03 \x01(\tR\x06detail\"S\n" +
+	"\x06detail\x18\x03 \x01(\tR\x06detail\x12\x16\n" +
+	"\x06status\x18\x04 \x01(\tR\x06status\"S\n" +
 	"\x18CreateUserReportResponse\x127\n" +
 	"\vuser_report\x18\x01 \x01(\v2\x16.userreport.UserReportR\n" +
 	"userReport\"+\n" +
@@ -756,10 +782,13 @@ const file_proto_userreport_userreport_proto_rawDesc = "" +
 	"\fuser_reports\x18\x01 \x03(\v2\x16.userreport.UserReportR\vuserReports\"\x1b\n" +
 	"\x19FindAllUserReportsRequest\"W\n" +
 	"\x1aFindAllUserReportsResponse\x129\n" +
-	"\fuser_reports\x18\x01 \x03(\v2\x16.userreport.UserReportR\vuserReports\"@\n" +
+	"\fuser_reports\x18\x01 \x03(\v2\x16.userreport.UserReportR\vuserReports\"x\n" +
 	"\x16PatchUserReportRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x05R\x02id\x12\x16\n" +
-	"\x06detail\x18\x02 \x01(\tR\x06detail\"R\n" +
+	"\x02id\x18\x01 \x01(\x05R\x02id\x12\x1b\n" +
+	"\x06detail\x18\x02 \x01(\tH\x00R\x06detail\x88\x01\x01\x12\x1b\n" +
+	"\x06status\x18\x03 \x01(\tH\x01R\x06status\x88\x01\x01B\t\n" +
+	"\a_detailB\t\n" +
+	"\a_status\"R\n" +
 	"\x17PatchUserReportResponse\x127\n" +
 	"\vuser_report\x18\x01 \x01(\v2\x16.userreport.UserReportR\n" +
 	"userReport\")\n" +
@@ -839,6 +868,7 @@ func file_proto_userreport_userreport_proto_init() {
 	if File_proto_userreport_userreport_proto != nil {
 		return
 	}
+	file_proto_userreport_userreport_proto_msgTypes[11].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
