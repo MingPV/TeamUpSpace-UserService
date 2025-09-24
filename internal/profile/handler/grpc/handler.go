@@ -35,6 +35,7 @@ func (h *GrpcProfileHandler) CreateProfile(ctx context.Context, req *profilepb.C
 		Age:           int(req.Age),
 		University:    req.University,
 		Year:          int(req.Year),
+		Major:         req.Major,
 		IsGraduated:   req.IsGraduated,
 		ProfileURL:    req.ProfileUrl,
 		BackgroundURL: req.BackgroundUrl,

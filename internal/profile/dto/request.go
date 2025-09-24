@@ -9,6 +9,7 @@ type CreateProfileRequest struct {
 	Age           int       `json:"age"`
 	University    string    `json:"university"`
 	Year          int       `json:"year"`
+	Major         string    `json:"major"`
 	IsGraduated   bool      `json:"is_graduated"`
 	ProfileURL    string    `json:"profile_url"`
 	BackgroundURL string    `json:"background_url"`

@@ -12,6 +12,7 @@ func ToProfileResponse(profile *entities.Profile) *ProfileResponse {
 		Age:           profile.Age,
 		University:    profile.University,
 		Year:          profile.Year,
+		Major:         profile.Major,
 		IsGraduated:   profile.IsGraduated,
 		ProfileURL:    profile.ProfileURL,
 		BackgroundURL: profile.BackgroundURL,
