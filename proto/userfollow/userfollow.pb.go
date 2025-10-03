@@ -23,10 +23,9 @@ const (
 
 type UserFollow struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            int32                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	UserId        string                 `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	FollowTo      string                 `protobuf:"bytes,3,opt,name=follow_to,json=followTo,proto3" json:"follow_to,omitempty"`
-	CreatedAt     string                 `protobuf:"bytes,4,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	FollowTo      string                 `protobuf:"bytes,2,opt,name=follow_to,json=followTo,proto3" json:"follow_to,omitempty"`
+	CreatedAt     string                 `protobuf:"bytes,3,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -61,13 +60,6 @@ func (*UserFollow) Descriptor() ([]byte, []int) {
 	return file_proto_userfollow_userfollow_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *UserFollow) GetId() int32 {
-	if x != nil {
-		return x.Id
-	}
-	return 0
-}
-
 func (x *UserFollow) GetUserId() string {
 	if x != nil {
 		return x.UserId
@@ -89,7 +81,7 @@ func (x *UserFollow) GetCreatedAt() string {
 	return ""
 }
 
-type CreateUserFollowRequest struct {
+type FollowUserRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
 	FollowTo      string                 `protobuf:"bytes,2,opt,name=follow_to,json=followTo,proto3" json:"follow_to,omitempty"`
@@ -97,20 +89,20 @@ type CreateUserFollowRequest struct {
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *CreateUserFollowRequest) Reset() {
-	*x = CreateUserFollowRequest{}
+func (x *FollowUserRequest) Reset() {
+	*x = FollowUserRequest{}
 	mi := &file_proto_userfollow_userfollow_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *CreateUserFollowRequest) String() string {
+func (x *FollowUserRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*CreateUserFollowRequest) ProtoMessage() {}
+func (*FollowUserRequest) ProtoMessage() {}
 
-func (x *CreateUserFollowRequest) ProtoReflect() protoreflect.Message {
+func (x *FollowUserRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_proto_userfollow_userfollow_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -122,46 +114,46 @@ func (x *CreateUserFollowRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use CreateUserFollowRequest.ProtoReflect.Descriptor instead.
-func (*CreateUserFollowRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use FollowUserRequest.ProtoReflect.Descriptor instead.
+func (*FollowUserRequest) Descriptor() ([]byte, []int) {
 	return file_proto_userfollow_userfollow_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *CreateUserFollowRequest) GetUserId() string {
+func (x *FollowUserRequest) GetUserId() string {
 	if x != nil {
 		return x.UserId
 	}
 	return ""
 }
 
-func (x *CreateUserFollowRequest) GetFollowTo() string {
+func (x *FollowUserRequest) GetFollowTo() string {
 	if x != nil {
 		return x.FollowTo
 	}
 	return ""
 }
 
-type CreateUserFollowResponse struct {
+type FollowUserResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	UserFollow    *UserFollow            `protobuf:"bytes,1,opt,name=user_follow,json=userFollow,proto3" json:"user_follow,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *CreateUserFollowResponse) Reset() {
-	*x = CreateUserFollowResponse{}
+func (x *FollowUserResponse) Reset() {
+	*x = FollowUserResponse{}
 	mi := &file_proto_userfollow_userfollow_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *CreateUserFollowResponse) String() string {
+func (x *FollowUserResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*CreateUserFollowResponse) ProtoMessage() {}
+func (*FollowUserResponse) ProtoMessage() {}
 
-func (x *CreateUserFollowResponse) ProtoReflect() protoreflect.Message {
+func (x *FollowUserResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_proto_userfollow_userfollow_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -173,39 +165,40 @@ func (x *CreateUserFollowResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use CreateUserFollowResponse.ProtoReflect.Descriptor instead.
-func (*CreateUserFollowResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use FollowUserResponse.ProtoReflect.Descriptor instead.
+func (*FollowUserResponse) Descriptor() ([]byte, []int) {
 	return file_proto_userfollow_userfollow_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *CreateUserFollowResponse) GetUserFollow() *UserFollow {
+func (x *FollowUserResponse) GetUserFollow() *UserFollow {
 	if x != nil {
 		return x.UserFollow
 	}
 	return nil
 }
 
-type FindUserFollowByIDRequest struct {
+type UnfollowUserRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            int32                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	FollowTo      string                 `protobuf:"bytes,2,opt,name=follow_to,json=followTo,proto3" json:"follow_to,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *FindUserFollowByIDRequest) Reset() {
-	*x = FindUserFollowByIDRequest{}
+func (x *UnfollowUserRequest) Reset() {
+	*x = UnfollowUserRequest{}
 	mi := &file_proto_userfollow_userfollow_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *FindUserFollowByIDRequest) String() string {
+func (x *UnfollowUserRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*FindUserFollowByIDRequest) ProtoMessage() {}
+func (*UnfollowUserRequest) ProtoMessage() {}
 
-func (x *FindUserFollowByIDRequest) ProtoReflect() protoreflect.Message {
+func (x *UnfollowUserRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_proto_userfollow_userfollow_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -217,384 +210,47 @@ func (x *FindUserFollowByIDRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use FindUserFollowByIDRequest.ProtoReflect.Descriptor instead.
-func (*FindUserFollowByIDRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use UnfollowUserRequest.ProtoReflect.Descriptor instead.
+func (*UnfollowUserRequest) Descriptor() ([]byte, []int) {
 	return file_proto_userfollow_userfollow_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *FindUserFollowByIDRequest) GetId() int32 {
-	if x != nil {
-		return x.Id
-	}
-	return 0
-}
-
-type FindUserFollowByIDResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	UserFollow    *UserFollow            `protobuf:"bytes,1,opt,name=user_follow,json=userFollow,proto3" json:"user_follow,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *FindUserFollowByIDResponse) Reset() {
-	*x = FindUserFollowByIDResponse{}
-	mi := &file_proto_userfollow_userfollow_proto_msgTypes[4]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *FindUserFollowByIDResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*FindUserFollowByIDResponse) ProtoMessage() {}
-
-func (x *FindUserFollowByIDResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_userfollow_userfollow_proto_msgTypes[4]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use FindUserFollowByIDResponse.ProtoReflect.Descriptor instead.
-func (*FindUserFollowByIDResponse) Descriptor() ([]byte, []int) {
-	return file_proto_userfollow_userfollow_proto_rawDescGZIP(), []int{4}
-}
-
-func (x *FindUserFollowByIDResponse) GetUserFollow() *UserFollow {
-	if x != nil {
-		return x.UserFollow
-	}
-	return nil
-}
-
-type FindAllByUserRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *FindAllByUserRequest) Reset() {
-	*x = FindAllByUserRequest{}
-	mi := &file_proto_userfollow_userfollow_proto_msgTypes[5]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *FindAllByUserRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*FindAllByUserRequest) ProtoMessage() {}
-
-func (x *FindAllByUserRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_userfollow_userfollow_proto_msgTypes[5]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use FindAllByUserRequest.ProtoReflect.Descriptor instead.
-func (*FindAllByUserRequest) Descriptor() ([]byte, []int) {
-	return file_proto_userfollow_userfollow_proto_rawDescGZIP(), []int{5}
-}
-
-func (x *FindAllByUserRequest) GetUserId() string {
+func (x *UnfollowUserRequest) GetUserId() string {
 	if x != nil {
 		return x.UserId
 	}
 	return ""
 }
 
-type FindAllByUserResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	UserFollows   []*UserFollow          `protobuf:"bytes,1,rep,name=user_follows,json=userFollows,proto3" json:"user_follows,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *FindAllByUserResponse) Reset() {
-	*x = FindAllByUserResponse{}
-	mi := &file_proto_userfollow_userfollow_proto_msgTypes[6]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *FindAllByUserResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*FindAllByUserResponse) ProtoMessage() {}
-
-func (x *FindAllByUserResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_userfollow_userfollow_proto_msgTypes[6]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use FindAllByUserResponse.ProtoReflect.Descriptor instead.
-func (*FindAllByUserResponse) Descriptor() ([]byte, []int) {
-	return file_proto_userfollow_userfollow_proto_rawDescGZIP(), []int{6}
-}
-
-func (x *FindAllByUserResponse) GetUserFollows() []*UserFollow {
-	if x != nil {
-		return x.UserFollows
-	}
-	return nil
-}
-
-type FindAllByFollowToRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	FollowTo      string                 `protobuf:"bytes,1,opt,name=follow_to,json=followTo,proto3" json:"follow_to,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *FindAllByFollowToRequest) Reset() {
-	*x = FindAllByFollowToRequest{}
-	mi := &file_proto_userfollow_userfollow_proto_msgTypes[7]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *FindAllByFollowToRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*FindAllByFollowToRequest) ProtoMessage() {}
-
-func (x *FindAllByFollowToRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_userfollow_userfollow_proto_msgTypes[7]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use FindAllByFollowToRequest.ProtoReflect.Descriptor instead.
-func (*FindAllByFollowToRequest) Descriptor() ([]byte, []int) {
-	return file_proto_userfollow_userfollow_proto_rawDescGZIP(), []int{7}
-}
-
-func (x *FindAllByFollowToRequest) GetFollowTo() string {
+func (x *UnfollowUserRequest) GetFollowTo() string {
 	if x != nil {
 		return x.FollowTo
 	}
 	return ""
 }
 
-type FindAllByFollowToResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	UserFollows   []*UserFollow          `protobuf:"bytes,1,rep,name=user_follows,json=userFollows,proto3" json:"user_follows,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *FindAllByFollowToResponse) Reset() {
-	*x = FindAllByFollowToResponse{}
-	mi := &file_proto_userfollow_userfollow_proto_msgTypes[8]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *FindAllByFollowToResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*FindAllByFollowToResponse) ProtoMessage() {}
-
-func (x *FindAllByFollowToResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_userfollow_userfollow_proto_msgTypes[8]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use FindAllByFollowToResponse.ProtoReflect.Descriptor instead.
-func (*FindAllByFollowToResponse) Descriptor() ([]byte, []int) {
-	return file_proto_userfollow_userfollow_proto_rawDescGZIP(), []int{8}
-}
-
-func (x *FindAllByFollowToResponse) GetUserFollows() []*UserFollow {
-	if x != nil {
-		return x.UserFollows
-	}
-	return nil
-}
-
-type FindAllUserFollowsRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *FindAllUserFollowsRequest) Reset() {
-	*x = FindAllUserFollowsRequest{}
-	mi := &file_proto_userfollow_userfollow_proto_msgTypes[9]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *FindAllUserFollowsRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*FindAllUserFollowsRequest) ProtoMessage() {}
-
-func (x *FindAllUserFollowsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_userfollow_userfollow_proto_msgTypes[9]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use FindAllUserFollowsRequest.ProtoReflect.Descriptor instead.
-func (*FindAllUserFollowsRequest) Descriptor() ([]byte, []int) {
-	return file_proto_userfollow_userfollow_proto_rawDescGZIP(), []int{9}
-}
-
-type FindAllUserFollowsResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	UserFollows   []*UserFollow          `protobuf:"bytes,1,rep,name=user_follows,json=userFollows,proto3" json:"user_follows,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *FindAllUserFollowsResponse) Reset() {
-	*x = FindAllUserFollowsResponse{}
-	mi := &file_proto_userfollow_userfollow_proto_msgTypes[10]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *FindAllUserFollowsResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*FindAllUserFollowsResponse) ProtoMessage() {}
-
-func (x *FindAllUserFollowsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_userfollow_userfollow_proto_msgTypes[10]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use FindAllUserFollowsResponse.ProtoReflect.Descriptor instead.
-func (*FindAllUserFollowsResponse) Descriptor() ([]byte, []int) {
-	return file_proto_userfollow_userfollow_proto_rawDescGZIP(), []int{10}
-}
-
-func (x *FindAllUserFollowsResponse) GetUserFollows() []*UserFollow {
-	if x != nil {
-		return x.UserFollows
-	}
-	return nil
-}
-
-type DeleteUserFollowRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            int32                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *DeleteUserFollowRequest) Reset() {
-	*x = DeleteUserFollowRequest{}
-	mi := &file_proto_userfollow_userfollow_proto_msgTypes[11]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *DeleteUserFollowRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*DeleteUserFollowRequest) ProtoMessage() {}
-
-func (x *DeleteUserFollowRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_userfollow_userfollow_proto_msgTypes[11]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use DeleteUserFollowRequest.ProtoReflect.Descriptor instead.
-func (*DeleteUserFollowRequest) Descriptor() ([]byte, []int) {
-	return file_proto_userfollow_userfollow_proto_rawDescGZIP(), []int{11}
-}
-
-func (x *DeleteUserFollowRequest) GetId() int32 {
-	if x != nil {
-		return x.Id
-	}
-	return 0
-}
-
-type DeleteUserFollowResponse struct {
+type UnfollowUserResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Message       string                 `protobuf:"bytes,1,opt,name=message,proto3" json:"message,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *DeleteUserFollowResponse) Reset() {
-	*x = DeleteUserFollowResponse{}
-	mi := &file_proto_userfollow_userfollow_proto_msgTypes[12]
+func (x *UnfollowUserResponse) Reset() {
+	*x = UnfollowUserResponse{}
+	mi := &file_proto_userfollow_userfollow_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *DeleteUserFollowResponse) String() string {
+func (x *UnfollowUserResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*DeleteUserFollowResponse) ProtoMessage() {}
+func (*UnfollowUserResponse) ProtoMessage() {}
 
-func (x *DeleteUserFollowResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_userfollow_userfollow_proto_msgTypes[12]
+func (x *UnfollowUserResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_userfollow_userfollow_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -605,16 +261,192 @@ func (x *DeleteUserFollowResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use DeleteUserFollowResponse.ProtoReflect.Descriptor instead.
-func (*DeleteUserFollowResponse) Descriptor() ([]byte, []int) {
-	return file_proto_userfollow_userfollow_proto_rawDescGZIP(), []int{12}
+// Deprecated: Use UnfollowUserResponse.ProtoReflect.Descriptor instead.
+func (*UnfollowUserResponse) Descriptor() ([]byte, []int) {
+	return file_proto_userfollow_userfollow_proto_rawDescGZIP(), []int{4}
 }
 
-func (x *DeleteUserFollowResponse) GetMessage() string {
+func (x *UnfollowUserResponse) GetMessage() string {
 	if x != nil {
 		return x.Message
 	}
 	return ""
+}
+
+type FindAllFollowersRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	FollowTo      string                 `protobuf:"bytes,1,opt,name=follow_to,json=followTo,proto3" json:"follow_to,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *FindAllFollowersRequest) Reset() {
+	*x = FindAllFollowersRequest{}
+	mi := &file_proto_userfollow_userfollow_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *FindAllFollowersRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*FindAllFollowersRequest) ProtoMessage() {}
+
+func (x *FindAllFollowersRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_userfollow_userfollow_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use FindAllFollowersRequest.ProtoReflect.Descriptor instead.
+func (*FindAllFollowersRequest) Descriptor() ([]byte, []int) {
+	return file_proto_userfollow_userfollow_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *FindAllFollowersRequest) GetFollowTo() string {
+	if x != nil {
+		return x.FollowTo
+	}
+	return ""
+}
+
+type FindAllFollowersResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	UserFollows   []*UserFollow          `protobuf:"bytes,1,rep,name=user_follows,json=userFollows,proto3" json:"user_follows,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *FindAllFollowersResponse) Reset() {
+	*x = FindAllFollowersResponse{}
+	mi := &file_proto_userfollow_userfollow_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *FindAllFollowersResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*FindAllFollowersResponse) ProtoMessage() {}
+
+func (x *FindAllFollowersResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_userfollow_userfollow_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use FindAllFollowersResponse.ProtoReflect.Descriptor instead.
+func (*FindAllFollowersResponse) Descriptor() ([]byte, []int) {
+	return file_proto_userfollow_userfollow_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *FindAllFollowersResponse) GetUserFollows() []*UserFollow {
+	if x != nil {
+		return x.UserFollows
+	}
+	return nil
+}
+
+type FindAllFollowingsRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *FindAllFollowingsRequest) Reset() {
+	*x = FindAllFollowingsRequest{}
+	mi := &file_proto_userfollow_userfollow_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *FindAllFollowingsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*FindAllFollowingsRequest) ProtoMessage() {}
+
+func (x *FindAllFollowingsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_userfollow_userfollow_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use FindAllFollowingsRequest.ProtoReflect.Descriptor instead.
+func (*FindAllFollowingsRequest) Descriptor() ([]byte, []int) {
+	return file_proto_userfollow_userfollow_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *FindAllFollowingsRequest) GetUserId() string {
+	if x != nil {
+		return x.UserId
+	}
+	return ""
+}
+
+type FindAllFollowingsResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	UserFollows   []*UserFollow          `protobuf:"bytes,1,rep,name=user_follows,json=userFollows,proto3" json:"user_follows,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *FindAllFollowingsResponse) Reset() {
+	*x = FindAllFollowingsResponse{}
+	mi := &file_proto_userfollow_userfollow_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *FindAllFollowingsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*FindAllFollowingsResponse) ProtoMessage() {}
+
+func (x *FindAllFollowingsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_userfollow_userfollow_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use FindAllFollowingsResponse.ProtoReflect.Descriptor instead.
+func (*FindAllFollowingsResponse) Descriptor() ([]byte, []int) {
+	return file_proto_userfollow_userfollow_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *FindAllFollowingsResponse) GetUserFollows() []*UserFollow {
+	if x != nil {
+		return x.UserFollows
+	}
+	return nil
 }
 
 var File_proto_userfollow_userfollow_proto protoreflect.FileDescriptor
@@ -622,47 +454,38 @@ var File_proto_userfollow_userfollow_proto protoreflect.FileDescriptor
 const file_proto_userfollow_userfollow_proto_rawDesc = "" +
 	"\n" +
 	"!proto/userfollow/userfollow.proto\x12\n" +
-	"userfollow\"q\n" +
+	"userfollow\"a\n" +
 	"\n" +
-	"UserFollow\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x05R\x02id\x12\x17\n" +
-	"\auser_id\x18\x02 \x01(\tR\x06userId\x12\x1b\n" +
-	"\tfollow_to\x18\x03 \x01(\tR\bfollowTo\x12\x1d\n" +
-	"\n" +
-	"created_at\x18\x04 \x01(\tR\tcreatedAt\"O\n" +
-	"\x17CreateUserFollowRequest\x12\x17\n" +
+	"UserFollow\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x1b\n" +
-	"\tfollow_to\x18\x02 \x01(\tR\bfollowTo\"S\n" +
-	"\x18CreateUserFollowResponse\x127\n" +
+	"\tfollow_to\x18\x02 \x01(\tR\bfollowTo\x12\x1d\n" +
+	"\n" +
+	"created_at\x18\x03 \x01(\tR\tcreatedAt\"I\n" +
+	"\x11FollowUserRequest\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x1b\n" +
+	"\tfollow_to\x18\x02 \x01(\tR\bfollowTo\"M\n" +
+	"\x12FollowUserResponse\x127\n" +
 	"\vuser_follow\x18\x01 \x01(\v2\x16.userfollow.UserFollowR\n" +
-	"userFollow\"+\n" +
-	"\x19FindUserFollowByIDRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x05R\x02id\"U\n" +
-	"\x1aFindUserFollowByIDResponse\x127\n" +
-	"\vuser_follow\x18\x01 \x01(\v2\x16.userfollow.UserFollowR\n" +
-	"userFollow\"/\n" +
-	"\x14FindAllByUserRequest\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\"R\n" +
-	"\x15FindAllByUserResponse\x129\n" +
-	"\fuser_follows\x18\x01 \x03(\v2\x16.userfollow.UserFollowR\vuserFollows\"7\n" +
-	"\x18FindAllByFollowToRequest\x12\x1b\n" +
-	"\tfollow_to\x18\x01 \x01(\tR\bfollowTo\"V\n" +
-	"\x19FindAllByFollowToResponse\x129\n" +
-	"\fuser_follows\x18\x01 \x03(\v2\x16.userfollow.UserFollowR\vuserFollows\"\x1b\n" +
-	"\x19FindAllUserFollowsRequest\"W\n" +
-	"\x1aFindAllUserFollowsResponse\x129\n" +
-	"\fuser_follows\x18\x01 \x03(\v2\x16.userfollow.UserFollowR\vuserFollows\")\n" +
-	"\x17DeleteUserFollowRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x05R\x02id\"4\n" +
-	"\x18DeleteUserFollowResponse\x12\x18\n" +
-	"\amessage\x18\x01 \x01(\tR\amessage2\xd3\x04\n" +
-	"\x11UserFollowService\x12]\n" +
-	"\x10CreateUserFollow\x12#.userfollow.CreateUserFollowRequest\x1a$.userfollow.CreateUserFollowResponse\x12c\n" +
-	"\x12FindUserFollowByID\x12%.userfollow.FindUserFollowByIDRequest\x1a&.userfollow.FindUserFollowByIDResponse\x12T\n" +
-	"\rFindAllByUser\x12 .userfollow.FindAllByUserRequest\x1a!.userfollow.FindAllByUserResponse\x12`\n" +
-	"\x11FindAllByFollowTo\x12$.userfollow.FindAllByFollowToRequest\x1a%.userfollow.FindAllByFollowToResponse\x12c\n" +
-	"\x12FindAllUserFollows\x12%.userfollow.FindAllUserFollowsRequest\x1a&.userfollow.FindAllUserFollowsResponse\x12]\n" +
-	"\x10DeleteUserFollow\x12#.userfollow.DeleteUserFollowRequest\x1a$.userfollow.DeleteUserFollowResponseB\x12Z\x10proto/userfollowb\x06proto3"
+	"userFollow\"K\n" +
+	"\x13UnfollowUserRequest\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x1b\n" +
+	"\tfollow_to\x18\x02 \x01(\tR\bfollowTo\"0\n" +
+	"\x14UnfollowUserResponse\x12\x18\n" +
+	"\amessage\x18\x01 \x01(\tR\amessage\"6\n" +
+	"\x17FindAllFollowersRequest\x12\x1b\n" +
+	"\tfollow_to\x18\x01 \x01(\tR\bfollowTo\"U\n" +
+	"\x18FindAllFollowersResponse\x129\n" +
+	"\fuser_follows\x18\x01 \x03(\v2\x16.userfollow.UserFollowR\vuserFollows\"3\n" +
+	"\x18FindAllFollowingsRequest\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\tR\x06userId\"V\n" +
+	"\x19FindAllFollowingsResponse\x129\n" +
+	"\fuser_follows\x18\x01 \x03(\v2\x16.userfollow.UserFollowR\vuserFollows2\xf4\x02\n" +
+	"\x11UserFollowService\x12K\n" +
+	"\n" +
+	"FollowUser\x12\x1d.userfollow.FollowUserRequest\x1a\x1e.userfollow.FollowUserResponse\x12Q\n" +
+	"\fUnfollowUser\x12\x1f.userfollow.UnfollowUserRequest\x1a .userfollow.UnfollowUserResponse\x12]\n" +
+	"\x10FindAllFollowers\x12#.userfollow.FindAllFollowersRequest\x1a$.userfollow.FindAllFollowersResponse\x12`\n" +
+	"\x11FindAllFollowings\x12$.userfollow.FindAllFollowingsRequest\x1a%.userfollow.FindAllFollowingsResponseB\x12Z\x10proto/userfollowb\x06proto3"
 
 var (
 	file_proto_userfollow_userfollow_proto_rawDescOnce sync.Once
@@ -676,45 +499,35 @@ func file_proto_userfollow_userfollow_proto_rawDescGZIP() []byte {
 	return file_proto_userfollow_userfollow_proto_rawDescData
 }
 
-var file_proto_userfollow_userfollow_proto_msgTypes = make([]protoimpl.MessageInfo, 13)
+var file_proto_userfollow_userfollow_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
 var file_proto_userfollow_userfollow_proto_goTypes = []any{
-	(*UserFollow)(nil),                 // 0: userfollow.UserFollow
-	(*CreateUserFollowRequest)(nil),    // 1: userfollow.CreateUserFollowRequest
-	(*CreateUserFollowResponse)(nil),   // 2: userfollow.CreateUserFollowResponse
-	(*FindUserFollowByIDRequest)(nil),  // 3: userfollow.FindUserFollowByIDRequest
-	(*FindUserFollowByIDResponse)(nil), // 4: userfollow.FindUserFollowByIDResponse
-	(*FindAllByUserRequest)(nil),       // 5: userfollow.FindAllByUserRequest
-	(*FindAllByUserResponse)(nil),      // 6: userfollow.FindAllByUserResponse
-	(*FindAllByFollowToRequest)(nil),   // 7: userfollow.FindAllByFollowToRequest
-	(*FindAllByFollowToResponse)(nil),  // 8: userfollow.FindAllByFollowToResponse
-	(*FindAllUserFollowsRequest)(nil),  // 9: userfollow.FindAllUserFollowsRequest
-	(*FindAllUserFollowsResponse)(nil), // 10: userfollow.FindAllUserFollowsResponse
-	(*DeleteUserFollowRequest)(nil),    // 11: userfollow.DeleteUserFollowRequest
-	(*DeleteUserFollowResponse)(nil),   // 12: userfollow.DeleteUserFollowResponse
+	(*UserFollow)(nil),                // 0: userfollow.UserFollow
+	(*FollowUserRequest)(nil),         // 1: userfollow.FollowUserRequest
+	(*FollowUserResponse)(nil),        // 2: userfollow.FollowUserResponse
+	(*UnfollowUserRequest)(nil),       // 3: userfollow.UnfollowUserRequest
+	(*UnfollowUserResponse)(nil),      // 4: userfollow.UnfollowUserResponse
+	(*FindAllFollowersRequest)(nil),   // 5: userfollow.FindAllFollowersRequest
+	(*FindAllFollowersResponse)(nil),  // 6: userfollow.FindAllFollowersResponse
+	(*FindAllFollowingsRequest)(nil),  // 7: userfollow.FindAllFollowingsRequest
+	(*FindAllFollowingsResponse)(nil), // 8: userfollow.FindAllFollowingsResponse
 }
 var file_proto_userfollow_userfollow_proto_depIdxs = []int32{
-	0,  // 0: userfollow.CreateUserFollowResponse.user_follow:type_name -> userfollow.UserFollow
-	0,  // 1: userfollow.FindUserFollowByIDResponse.user_follow:type_name -> userfollow.UserFollow
-	0,  // 2: userfollow.FindAllByUserResponse.user_follows:type_name -> userfollow.UserFollow
-	0,  // 3: userfollow.FindAllByFollowToResponse.user_follows:type_name -> userfollow.UserFollow
-	0,  // 4: userfollow.FindAllUserFollowsResponse.user_follows:type_name -> userfollow.UserFollow
-	1,  // 5: userfollow.UserFollowService.CreateUserFollow:input_type -> userfollow.CreateUserFollowRequest
-	3,  // 6: userfollow.UserFollowService.FindUserFollowByID:input_type -> userfollow.FindUserFollowByIDRequest
-	5,  // 7: userfollow.UserFollowService.FindAllByUser:input_type -> userfollow.FindAllByUserRequest
-	7,  // 8: userfollow.UserFollowService.FindAllByFollowTo:input_type -> userfollow.FindAllByFollowToRequest
-	9,  // 9: userfollow.UserFollowService.FindAllUserFollows:input_type -> userfollow.FindAllUserFollowsRequest
-	11, // 10: userfollow.UserFollowService.DeleteUserFollow:input_type -> userfollow.DeleteUserFollowRequest
-	2,  // 11: userfollow.UserFollowService.CreateUserFollow:output_type -> userfollow.CreateUserFollowResponse
-	4,  // 12: userfollow.UserFollowService.FindUserFollowByID:output_type -> userfollow.FindUserFollowByIDResponse
-	6,  // 13: userfollow.UserFollowService.FindAllByUser:output_type -> userfollow.FindAllByUserResponse
-	8,  // 14: userfollow.UserFollowService.FindAllByFollowTo:output_type -> userfollow.FindAllByFollowToResponse
-	10, // 15: userfollow.UserFollowService.FindAllUserFollows:output_type -> userfollow.FindAllUserFollowsResponse
-	12, // 16: userfollow.UserFollowService.DeleteUserFollow:output_type -> userfollow.DeleteUserFollowResponse
-	11, // [11:17] is the sub-list for method output_type
-	5,  // [5:11] is the sub-list for method input_type
-	5,  // [5:5] is the sub-list for extension type_name
-	5,  // [5:5] is the sub-list for extension extendee
-	0,  // [0:5] is the sub-list for field type_name
+	0, // 0: userfollow.FollowUserResponse.user_follow:type_name -> userfollow.UserFollow
+	0, // 1: userfollow.FindAllFollowersResponse.user_follows:type_name -> userfollow.UserFollow
+	0, // 2: userfollow.FindAllFollowingsResponse.user_follows:type_name -> userfollow.UserFollow
+	1, // 3: userfollow.UserFollowService.FollowUser:input_type -> userfollow.FollowUserRequest
+	3, // 4: userfollow.UserFollowService.UnfollowUser:input_type -> userfollow.UnfollowUserRequest
+	5, // 5: userfollow.UserFollowService.FindAllFollowers:input_type -> userfollow.FindAllFollowersRequest
+	7, // 6: userfollow.UserFollowService.FindAllFollowings:input_type -> userfollow.FindAllFollowingsRequest
+	2, // 7: userfollow.UserFollowService.FollowUser:output_type -> userfollow.FollowUserResponse
+	4, // 8: userfollow.UserFollowService.UnfollowUser:output_type -> userfollow.UnfollowUserResponse
+	6, // 9: userfollow.UserFollowService.FindAllFollowers:output_type -> userfollow.FindAllFollowersResponse
+	8, // 10: userfollow.UserFollowService.FindAllFollowings:output_type -> userfollow.FindAllFollowingsResponse
+	7, // [7:11] is the sub-list for method output_type
+	3, // [3:7] is the sub-list for method input_type
+	3, // [3:3] is the sub-list for extension type_name
+	3, // [3:3] is the sub-list for extension extendee
+	0, // [0:3] is the sub-list for field type_name
 }
 
 func init() { file_proto_userfollow_userfollow_proto_init() }
@@ -728,7 +541,7 @@ func file_proto_userfollow_userfollow_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_proto_userfollow_userfollow_proto_rawDesc), len(file_proto_userfollow_userfollow_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   13,
+			NumMessages:   9,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

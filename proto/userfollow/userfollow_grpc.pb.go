@@ -19,24 +19,20 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	UserFollowService_CreateUserFollow_FullMethodName   = "/userfollow.UserFollowService/CreateUserFollow"
-	UserFollowService_FindUserFollowByID_FullMethodName = "/userfollow.UserFollowService/FindUserFollowByID"
-	UserFollowService_FindAllByUser_FullMethodName      = "/userfollow.UserFollowService/FindAllByUser"
-	UserFollowService_FindAllByFollowTo_FullMethodName  = "/userfollow.UserFollowService/FindAllByFollowTo"
-	UserFollowService_FindAllUserFollows_FullMethodName = "/userfollow.UserFollowService/FindAllUserFollows"
-	UserFollowService_DeleteUserFollow_FullMethodName   = "/userfollow.UserFollowService/DeleteUserFollow"
+	UserFollowService_FollowUser_FullMethodName        = "/userfollow.UserFollowService/FollowUser"
+	UserFollowService_UnfollowUser_FullMethodName      = "/userfollow.UserFollowService/UnfollowUser"
+	UserFollowService_FindAllFollowers_FullMethodName  = "/userfollow.UserFollowService/FindAllFollowers"
+	UserFollowService_FindAllFollowings_FullMethodName = "/userfollow.UserFollowService/FindAllFollowings"
 )
 
 // UserFollowServiceClient is the client API for UserFollowService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type UserFollowServiceClient interface {
-	CreateUserFollow(ctx context.Context, in *CreateUserFollowRequest, opts ...grpc.CallOption) (*CreateUserFollowResponse, error)
-	FindUserFollowByID(ctx context.Context, in *FindUserFollowByIDRequest, opts ...grpc.CallOption) (*FindUserFollowByIDResponse, error)
-	FindAllByUser(ctx context.Context, in *FindAllByUserRequest, opts ...grpc.CallOption) (*FindAllByUserResponse, error)
-	FindAllByFollowTo(ctx context.Context, in *FindAllByFollowToRequest, opts ...grpc.CallOption) (*FindAllByFollowToResponse, error)
-	FindAllUserFollows(ctx context.Context, in *FindAllUserFollowsRequest, opts ...grpc.CallOption) (*FindAllUserFollowsResponse, error)
-	DeleteUserFollow(ctx context.Context, in *DeleteUserFollowRequest, opts ...grpc.CallOption) (*DeleteUserFollowResponse, error)
+	FollowUser(ctx context.Context, in *FollowUserRequest, opts ...grpc.CallOption) (*FollowUserResponse, error)
+	UnfollowUser(ctx context.Context, in *UnfollowUserRequest, opts ...grpc.CallOption) (*UnfollowUserResponse, error)
+	FindAllFollowers(ctx context.Context, in *FindAllFollowersRequest, opts ...grpc.CallOption) (*FindAllFollowersResponse, error)
+	FindAllFollowings(ctx context.Context, in *FindAllFollowingsRequest, opts ...grpc.CallOption) (*FindAllFollowingsResponse, error)
 }
 
 type userFollowServiceClient struct {
@@ -47,60 +43,40 @@ func NewUserFollowServiceClient(cc grpc.ClientConnInterface) UserFollowServiceCl
 	return &userFollowServiceClient{cc}
 }
 
-func (c *userFollowServiceClient) CreateUserFollow(ctx context.Context, in *CreateUserFollowRequest, opts ...grpc.CallOption) (*CreateUserFollowResponse, error) {
+func (c *userFollowServiceClient) FollowUser(ctx context.Context, in *FollowUserRequest, opts ...grpc.CallOption) (*FollowUserResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(CreateUserFollowResponse)
-	err := c.cc.Invoke(ctx, UserFollowService_CreateUserFollow_FullMethodName, in, out, cOpts...)
+	out := new(FollowUserResponse)
+	err := c.cc.Invoke(ctx, UserFollowService_FollowUser_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *userFollowServiceClient) FindUserFollowByID(ctx context.Context, in *FindUserFollowByIDRequest, opts ...grpc.CallOption) (*FindUserFollowByIDResponse, error) {
+func (c *userFollowServiceClient) UnfollowUser(ctx context.Context, in *UnfollowUserRequest, opts ...grpc.CallOption) (*UnfollowUserResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(FindUserFollowByIDResponse)
-	err := c.cc.Invoke(ctx, UserFollowService_FindUserFollowByID_FullMethodName, in, out, cOpts...)
+	out := new(UnfollowUserResponse)
+	err := c.cc.Invoke(ctx, UserFollowService_UnfollowUser_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *userFollowServiceClient) FindAllByUser(ctx context.Context, in *FindAllByUserRequest, opts ...grpc.CallOption) (*FindAllByUserResponse, error) {
+func (c *userFollowServiceClient) FindAllFollowers(ctx context.Context, in *FindAllFollowersRequest, opts ...grpc.CallOption) (*FindAllFollowersResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(FindAllByUserResponse)
-	err := c.cc.Invoke(ctx, UserFollowService_FindAllByUser_FullMethodName, in, out, cOpts...)
+	out := new(FindAllFollowersResponse)
+	err := c.cc.Invoke(ctx, UserFollowService_FindAllFollowers_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *userFollowServiceClient) FindAllByFollowTo(ctx context.Context, in *FindAllByFollowToRequest, opts ...grpc.CallOption) (*FindAllByFollowToResponse, error) {
+func (c *userFollowServiceClient) FindAllFollowings(ctx context.Context, in *FindAllFollowingsRequest, opts ...grpc.CallOption) (*FindAllFollowingsResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(FindAllByFollowToResponse)
-	err := c.cc.Invoke(ctx, UserFollowService_FindAllByFollowTo_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *userFollowServiceClient) FindAllUserFollows(ctx context.Context, in *FindAllUserFollowsRequest, opts ...grpc.CallOption) (*FindAllUserFollowsResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(FindAllUserFollowsResponse)
-	err := c.cc.Invoke(ctx, UserFollowService_FindAllUserFollows_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *userFollowServiceClient) DeleteUserFollow(ctx context.Context, in *DeleteUserFollowRequest, opts ...grpc.CallOption) (*DeleteUserFollowResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(DeleteUserFollowResponse)
-	err := c.cc.Invoke(ctx, UserFollowService_DeleteUserFollow_FullMethodName, in, out, cOpts...)
+	out := new(FindAllFollowingsResponse)
+	err := c.cc.Invoke(ctx, UserFollowService_FindAllFollowings_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -111,12 +87,10 @@ func (c *userFollowServiceClient) DeleteUserFollow(ctx context.Context, in *Dele
 // All implementations must embed UnimplementedUserFollowServiceServer
 // for forward compatibility.
 type UserFollowServiceServer interface {
-	CreateUserFollow(context.Context, *CreateUserFollowRequest) (*CreateUserFollowResponse, error)
-	FindUserFollowByID(context.Context, *FindUserFollowByIDRequest) (*FindUserFollowByIDResponse, error)
-	FindAllByUser(context.Context, *FindAllByUserRequest) (*FindAllByUserResponse, error)
-	FindAllByFollowTo(context.Context, *FindAllByFollowToRequest) (*FindAllByFollowToResponse, error)
-	FindAllUserFollows(context.Context, *FindAllUserFollowsRequest) (*FindAllUserFollowsResponse, error)
-	DeleteUserFollow(context.Context, *DeleteUserFollowRequest) (*DeleteUserFollowResponse, error)
+	FollowUser(context.Context, *FollowUserRequest) (*FollowUserResponse, error)
+	UnfollowUser(context.Context, *UnfollowUserRequest) (*UnfollowUserResponse, error)
+	FindAllFollowers(context.Context, *FindAllFollowersRequest) (*FindAllFollowersResponse, error)
+	FindAllFollowings(context.Context, *FindAllFollowingsRequest) (*FindAllFollowingsResponse, error)
 	mustEmbedUnimplementedUserFollowServiceServer()
 }
 
@@ -127,23 +101,17 @@ type UserFollowServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedUserFollowServiceServer struct{}
 
-func (UnimplementedUserFollowServiceServer) CreateUserFollow(context.Context, *CreateUserFollowRequest) (*CreateUserFollowResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateUserFollow not implemented")
+func (UnimplementedUserFollowServiceServer) FollowUser(context.Context, *FollowUserRequest) (*FollowUserResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FollowUser not implemented")
 }
-func (UnimplementedUserFollowServiceServer) FindUserFollowByID(context.Context, *FindUserFollowByIDRequest) (*FindUserFollowByIDResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method FindUserFollowByID not implemented")
+func (UnimplementedUserFollowServiceServer) UnfollowUser(context.Context, *UnfollowUserRequest) (*UnfollowUserResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UnfollowUser not implemented")
 }
-func (UnimplementedUserFollowServiceServer) FindAllByUser(context.Context, *FindAllByUserRequest) (*FindAllByUserResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method FindAllByUser not implemented")
+func (UnimplementedUserFollowServiceServer) FindAllFollowers(context.Context, *FindAllFollowersRequest) (*FindAllFollowersResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindAllFollowers not implemented")
 }
-func (UnimplementedUserFollowServiceServer) FindAllByFollowTo(context.Context, *FindAllByFollowToRequest) (*FindAllByFollowToResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method FindAllByFollowTo not implemented")
-}
-func (UnimplementedUserFollowServiceServer) FindAllUserFollows(context.Context, *FindAllUserFollowsRequest) (*FindAllUserFollowsResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method FindAllUserFollows not implemented")
-}
-func (UnimplementedUserFollowServiceServer) DeleteUserFollow(context.Context, *DeleteUserFollowRequest) (*DeleteUserFollowResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeleteUserFollow not implemented")
+func (UnimplementedUserFollowServiceServer) FindAllFollowings(context.Context, *FindAllFollowingsRequest) (*FindAllFollowingsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindAllFollowings not implemented")
 }
 func (UnimplementedUserFollowServiceServer) mustEmbedUnimplementedUserFollowServiceServer() {}
 func (UnimplementedUserFollowServiceServer) testEmbeddedByValue()                           {}
@@ -166,110 +134,74 @@ func RegisterUserFollowServiceServer(s grpc.ServiceRegistrar, srv UserFollowServ
 	s.RegisterService(&UserFollowService_ServiceDesc, srv)
 }
 
-func _UserFollowService_CreateUserFollow_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreateUserFollowRequest)
+func _UserFollowService_FollowUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(FollowUserRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UserFollowServiceServer).CreateUserFollow(ctx, in)
+		return srv.(UserFollowServiceServer).FollowUser(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: UserFollowService_CreateUserFollow_FullMethodName,
+		FullMethod: UserFollowService_FollowUser_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserFollowServiceServer).CreateUserFollow(ctx, req.(*CreateUserFollowRequest))
+		return srv.(UserFollowServiceServer).FollowUser(ctx, req.(*FollowUserRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _UserFollowService_FindUserFollowByID_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(FindUserFollowByIDRequest)
+func _UserFollowService_UnfollowUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UnfollowUserRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UserFollowServiceServer).FindUserFollowByID(ctx, in)
+		return srv.(UserFollowServiceServer).UnfollowUser(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: UserFollowService_FindUserFollowByID_FullMethodName,
+		FullMethod: UserFollowService_UnfollowUser_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserFollowServiceServer).FindUserFollowByID(ctx, req.(*FindUserFollowByIDRequest))
+		return srv.(UserFollowServiceServer).UnfollowUser(ctx, req.(*UnfollowUserRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _UserFollowService_FindAllByUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(FindAllByUserRequest)
+func _UserFollowService_FindAllFollowers_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(FindAllFollowersRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UserFollowServiceServer).FindAllByUser(ctx, in)
+		return srv.(UserFollowServiceServer).FindAllFollowers(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: UserFollowService_FindAllByUser_FullMethodName,
+		FullMethod: UserFollowService_FindAllFollowers_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserFollowServiceServer).FindAllByUser(ctx, req.(*FindAllByUserRequest))
+		return srv.(UserFollowServiceServer).FindAllFollowers(ctx, req.(*FindAllFollowersRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _UserFollowService_FindAllByFollowTo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(FindAllByFollowToRequest)
+func _UserFollowService_FindAllFollowings_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(FindAllFollowingsRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UserFollowServiceServer).FindAllByFollowTo(ctx, in)
+		return srv.(UserFollowServiceServer).FindAllFollowings(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: UserFollowService_FindAllByFollowTo_FullMethodName,
+		FullMethod: UserFollowService_FindAllFollowings_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserFollowServiceServer).FindAllByFollowTo(ctx, req.(*FindAllByFollowToRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _UserFollowService_FindAllUserFollows_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(FindAllUserFollowsRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserFollowServiceServer).FindAllUserFollows(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: UserFollowService_FindAllUserFollows_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserFollowServiceServer).FindAllUserFollows(ctx, req.(*FindAllUserFollowsRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _UserFollowService_DeleteUserFollow_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DeleteUserFollowRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserFollowServiceServer).DeleteUserFollow(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: UserFollowService_DeleteUserFollow_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserFollowServiceServer).DeleteUserFollow(ctx, req.(*DeleteUserFollowRequest))
+		return srv.(UserFollowServiceServer).FindAllFollowings(ctx, req.(*FindAllFollowingsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -282,28 +214,20 @@ var UserFollowService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*UserFollowServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "CreateUserFollow",
-			Handler:    _UserFollowService_CreateUserFollow_Handler,
+			MethodName: "FollowUser",
+			Handler:    _UserFollowService_FollowUser_Handler,
 		},
 		{
-			MethodName: "FindUserFollowByID",
-			Handler:    _UserFollowService_FindUserFollowByID_Handler,
+			MethodName: "UnfollowUser",
+			Handler:    _UserFollowService_UnfollowUser_Handler,
 		},
 		{
-			MethodName: "FindAllByUser",
-			Handler:    _UserFollowService_FindAllByUser_Handler,
+			MethodName: "FindAllFollowers",
+			Handler:    _UserFollowService_FindAllFollowers_Handler,
 		},
 		{
-			MethodName: "FindAllByFollowTo",
-			Handler:    _UserFollowService_FindAllByFollowTo_Handler,
-		},
-		{
-			MethodName: "FindAllUserFollows",
-			Handler:    _UserFollowService_FindAllUserFollows_Handler,
-		},
-		{
-			MethodName: "DeleteUserFollow",
-			Handler:    _UserFollowService_DeleteUserFollow_Handler,
+			MethodName: "FindAllFollowings",
+			Handler:    _UserFollowService_FindAllFollowings_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

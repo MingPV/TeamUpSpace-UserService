@@ -6,83 +6,42 @@ import (
 	"gorm.io/gorm"
 )
 
-type GormUserReportRepository struct {
+type GormUserFollowRepository struct {
 	db *gorm.DB
 }
 
-func NewGormUserReportRepository(db *gorm.DB) UserReportRepository {
-	return &GormUserReportRepository{db: db}
+func NewGormUserFollowRepository(db *gorm.DB) UserFollowRepository {
+	return &GormUserFollowRepository{db: db}
 }
 
-func (r *GormUserReportRepository) Save(report *entities.UserReport) error {
-	return r.db.Create(report).Error
+func (r *GormUserFollowRepository) Save(follow *entities.UserFollow) error {
+	return r.db.Create(follow).Error
 }
 
-func (r *GormUserReportRepository) FindByID(id int) (*entities.UserReport, error) {
-	var report entities.UserReport
-	if err := r.db.Where("id = ?", id).First(&report).Error; err != nil {
+func (r *GormUserFollowRepository) Delete(userID, followTo uuid.UUID) error {
+	return r.db.Where("user_id = ? AND follow_to = ?", userID, followTo).Delete(&entities.UserFollow{}).Error
+}
+
+func (r *GormUserFollowRepository) FindAllFollowers(followTo uuid.UUID) ([]*entities.UserFollow, error) {
+	var values []entities.UserFollow
+	if err := r.db.Where("follow_to = ?", followTo).Find(&values).Error; err != nil {
 		return nil, err
 	}
-	return &report, nil
-}
-
-func (r *GormUserReportRepository) FindAllByReporter(reporter uuid.UUID) ([]*entities.UserReport, error) {
-	var values []entities.UserReport
-	if err := r.db.Where("reporter = ?", reporter).Find(&values).Error; err != nil {
-		return nil, err
-	}
-	reports := make([]*entities.UserReport, len(values))
+	result := make([]*entities.UserFollow, len(values))
 	for i := range values {
-		reports[i] = &values[i]
+		result[i] = &values[i]
 	}
-	return reports, nil
+	return result, nil
 }
 
-func (r *GormUserReportRepository) FindAllByReportTo(reportTo uuid.UUID) ([]*entities.UserReport, error) {
-	var values []entities.UserReport
-	if err := r.db.Where("report_to = ?", reportTo).Find(&values).Error; err != nil {
+func (r *GormUserFollowRepository) FindAllFollowings(userID uuid.UUID) ([]*entities.UserFollow, error) {
+	var values []entities.UserFollow
+	if err := r.db.Where("user_id = ?", userID).Find(&values).Error; err != nil {
 		return nil, err
 	}
-	reports := make([]*entities.UserReport, len(values))
+	result := make([]*entities.UserFollow, len(values))
 	for i := range values {
-		reports[i] = &values[i]
+		result[i] = &values[i]
 	}
-	return reports, nil
-}
-
-func (r *GormUserReportRepository) FindAll() ([]*entities.UserReport, error) {
-	var values []entities.UserReport
-	if err := r.db.Find(&values).Error; err != nil {
-		return nil, err
-	}
-	reports := make([]*entities.UserReport, len(values))
-	for i := range values {
-		reports[i] = &values[i]
-	}
-	return reports, nil
-}
-
-func (r *GormUserReportRepository) Patch(id int, update *entities.UserReport) error {
-	result := r.db.Model(&entities.UserReport{}).
-		Where("id = ?", id).
-		Updates(update)
-
-	if result.Error != nil {
-		return result.Error
-	}
-	if result.RowsAffected == 0 {
-		return gorm.ErrRecordNotFound
-	}
-	return nil
-}
-
-func (r *GormUserReportRepository) Delete(id int) error {
-	result := r.db.Where("id = ?", id).Delete(&entities.UserReport{})
-	if result.Error != nil {
-		return result.Error
-	}
-	if result.RowsAffected == 0 {
-		return gorm.ErrRecordNotFound
-	}
-	return nil
+	return result, nil
 }

@@ -5,64 +5,48 @@ package userfollow;
 option go_package = "proto/userfollow";
 
 message UserFollow {
-  int32 id = 1;
-  string user_id = 2;
-  string follow_to = 3;
-  string created_at = 4;
+  string user_id = 1;
+  string follow_to = 2;
+  string created_at = 3;
 }
 
-message CreateUserFollowRequest {
+message FollowUserRequest {
   string user_id = 1;
   string follow_to = 2;
 }
 
-message CreateUserFollowResponse {
+message FollowUserResponse {
   UserFollow user_follow = 1;
 }
 
-message FindUserFollowByIDRequest {
-  int32 id = 1;
-}
-
-message FindUserFollowByIDResponse {
-  UserFollow user_follow = 1;
-}
-
-message FindAllByUserRequest {
+message UnfollowUserRequest {
   string user_id = 1;
+  string follow_to = 2;
 }
 
-message FindAllByUserResponse {
-  repeated UserFollow user_follows = 1;
-}
-
-message FindAllByFollowToRequest {
-  string follow_to = 1;
-}
-
-message FindAllByFollowToResponse {
-  repeated UserFollow user_follows = 1;
-}
-
-message FindAllUserFollowsRequest {}
-
-message FindAllUserFollowsResponse {
-  repeated UserFollow user_follows = 1;
-}
-
-message DeleteUserFollowRequest {
-  int32 id = 1;
-}
-
-message DeleteUserFollowResponse {
+message UnfollowUserResponse {
   string message = 1;
 }
 
+message FindAllFollowersRequest {
+  string follow_to = 1;
+}
+
+message FindAllFollowersResponse {
+  repeated UserFollow user_follows = 1;
+}
+
+message FindAllFollowingsRequest {
+  string user_id = 1;
+}
+
+message FindAllFollowingsResponse {
+  repeated UserFollow user_follows = 1;
+}
+
 service UserFollowService {
-  rpc CreateUserFollow(CreateUserFollowRequest) returns (CreateUserFollowResponse);
-  rpc FindUserFollowByID(FindUserFollowByIDRequest) returns (FindUserFollowByIDResponse);
-  rpc FindAllByUser(FindAllByUserRequest) returns (FindAllByUserResponse);
-  rpc FindAllByFollowTo(FindAllByFollowToRequest) returns (FindAllByFollowToResponse);
-  rpc FindAllUserFollows(FindAllUserFollowsRequest) returns (FindAllUserFollowsResponse);
-  rpc DeleteUserFollow(DeleteUserFollowRequest) returns (DeleteUserFollowResponse);
+  rpc FollowUser(FollowUserRequest) returns (FollowUserResponse);
+  rpc UnfollowUser(UnfollowUserRequest) returns (UnfollowUserResponse);
+  rpc FindAllFollowers(FindAllFollowersRequest) returns (FindAllFollowersResponse);
+  rpc FindAllFollowings(FindAllFollowingsRequest) returns (FindAllFollowingsResponse);
 }
