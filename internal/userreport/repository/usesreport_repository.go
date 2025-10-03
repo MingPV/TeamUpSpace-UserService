@@ -5,9 +5,12 @@ import (
 	"github.com/google/uuid"
 )
 
-type UserFollowRepository interface {
-	Save(follow *entities.UserFollow) error
-	Delete(userID, followTo uuid.UUID) error
-	FindAllFollowers(followTo uuid.UUID) ([]*entities.UserFollow, error)
-	FindAllFollowings(userID uuid.UUID) ([]*entities.UserFollow, error)
+type UserReportRepository interface {
+	Save(report *entities.UserReport) error
+	FindByID(id int) (*entities.UserReport, error)
+	FindAllByReporter(reporter uuid.UUID) ([]*entities.UserReport, error)
+	FindAllByReportTo(reportTo uuid.UUID) ([]*entities.UserReport, error)
+	FindAll() ([]*entities.UserReport, error)
+	Patch(id int, update *entities.UserReport) error
+	Delete(id int) error
 }

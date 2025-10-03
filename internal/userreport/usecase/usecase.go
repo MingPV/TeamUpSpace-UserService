@@ -2,58 +2,56 @@ package usecase
 
 import (
 	"github.com/MingPV/UserService/internal/entities"
-	"github.com/MingPV/UserService/internal/userfollow/repository"
+	"github.com/MingPV/UserService/internal/userreport/repository"
 	"github.com/google/uuid"
 )
 
-type UserFollowService struct {
-	repo repository.UserFollowRepository
+type UserReportService struct {
+	repo repository.UserReportRepository
 }
 
-func NewUserFollowService(repo repository.UserFollowRepository) UserFollowUseCase {
-	return &UserFollowService{repo: repo}
+func NewUserReportService(repo repository.UserReportRepository) UserReportUseCase {
+	return &UserReportService{repo: repo}
 }
 
-func (s *UserFollowService) FollowUser(userID, followTo string) (*entities.UserFollow, error) {
-	uid, err := uuid.Parse(userID)
+func (s *UserReportService) CreateUserReport(report *entities.UserReport) (*entities.UserReport, error) {
+	if err := s.repo.Save(report); err != nil {
+		return nil, err
+	}
+	return report, nil
+}
+
+func (s *UserReportService) FindUserReportByID(id int) (*entities.UserReport, error) {
+	return s.repo.FindByID(id)
+}
+
+func (s *UserReportService) FindAllByReporter(reporter string) ([]*entities.UserReport, error) {
+	parsedID, err := uuid.Parse(reporter)
 	if err != nil {
 		return nil, err
 	}
-	ft, err := uuid.Parse(followTo)
-	if err != nil {
-		return nil, err
-	}
-	uf := &entities.UserFollow{UserID: uid, FollowTo: ft}
-	if err := s.repo.Save(uf); err != nil {
-		return nil, err
-	}
-	return uf, nil
+	return s.repo.FindAllByReporter(parsedID)
 }
 
-func (s *UserFollowService) UnfollowUser(userID, followTo string) error {
-	uid, err := uuid.Parse(userID)
-	if err != nil {
-		return err
-	}
-	ft, err := uuid.Parse(followTo)
-	if err != nil {
-		return err
-	}
-	return s.repo.Delete(uid, ft)
-}
-
-func (s *UserFollowService) FindAllFollowers(followTo string) ([]*entities.UserFollow, error) {
-	ft, err := uuid.Parse(followTo)
+func (s *UserReportService) FindAllByReportTo(reportTo string) ([]*entities.UserReport, error) {
+	parsedID, err := uuid.Parse(reportTo)
 	if err != nil {
 		return nil, err
 	}
-	return s.repo.FindAllFollowers(ft)
+	return s.repo.FindAllByReportTo(parsedID)
 }
 
-func (s *UserFollowService) FindAllFollowings(userID string) ([]*entities.UserFollow, error) {
-	uid, err := uuid.Parse(userID)
-	if err != nil {
+func (s *UserReportService) FindAllUserReports() ([]*entities.UserReport, error) {
+	return s.repo.FindAll()
+}
+
+func (s *UserReportService) PatchUserReport(id int, updatedFields *entities.UserReport) (*entities.UserReport, error) {
+	if err := s.repo.Patch(id, updatedFields); err != nil {
 		return nil, err
 	}
-	return s.repo.FindAllFollowings(uid)
+	return s.repo.FindByID(id)
+}
+
+func (s *UserReportService) DeleteUserReport(id int) error {
+	return s.repo.Delete(id)
 }

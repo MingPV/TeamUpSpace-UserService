@@ -14,37 +14,46 @@ func NewUserFollowService(repo repository.UserFollowRepository) UserFollowUseCas
 	return &UserFollowService{repo: repo}
 }
 
-func (s *UserFollowService) CreateUserFollow(follow *entities.UserFollow) (*entities.UserFollow, error) {
-	if err := s.repo.Save(follow); err != nil {
-		return nil, err
-	}
-	return follow, nil
-}
-
-func (s *UserFollowService) FindUserFollowByID(id int) (*entities.UserFollow, error) {
-	return s.repo.FindByID(id)
-}
-
-func (s *UserFollowService) FindAllByUser(userID string) ([]*entities.UserFollow, error) {
-	parsedID, err := uuid.Parse(userID)
+func (s *UserFollowService) FollowUser(userID, followTo string) (*entities.UserFollow, error) {
+	uid, err := uuid.Parse(userID)
 	if err != nil {
 		return nil, err
 	}
-	return s.repo.FindAllByUser(parsedID)
-}
-
-func (s *UserFollowService) FindAllByFollowTo(followTo string) ([]*entities.UserFollow, error) {
-	parsedID, err := uuid.Parse(followTo)
+	ft, err := uuid.Parse(followTo)
 	if err != nil {
 		return nil, err
 	}
-	return s.repo.FindAllByFollowTo(parsedID)
+	uf := &entities.UserFollow{UserID: uid, FollowTo: ft}
+	if err := s.repo.Save(uf); err != nil {
+		return nil, err
+	}
+	return uf, nil
 }
 
-func (s *UserFollowService) FindAllUserFollows() ([]*entities.UserFollow, error) {
-	return s.repo.FindAll()
+func (s *UserFollowService) UnfollowUser(userID, followTo string) error {
+	uid, err := uuid.Parse(userID)
+	if err != nil {
+		return err
+	}
+	ft, err := uuid.Parse(followTo)
+	if err != nil {
+		return err
+	}
+	return s.repo.Delete(uid, ft)
 }
 
-func (s *UserFollowService) DeleteUserFollow(id int) error {
-	return s.repo.Delete(id)
+func (s *UserFollowService) FindAllFollowers(followTo string) ([]*entities.UserFollow, error) {
+	ft, err := uuid.Parse(followTo)
+	if err != nil {
+		return nil, err
+	}
+	return s.repo.FindAllFollowers(ft)
+}
+
+func (s *UserFollowService) FindAllFollowings(userID string) ([]*entities.UserFollow, error) {
+	uid, err := uuid.Parse(userID)
+	if err != nil {
+		return nil, err
+	}
+	return s.repo.FindAllFollowings(uid)
 }
