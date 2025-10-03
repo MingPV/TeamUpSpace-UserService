@@ -6,21 +6,25 @@ import (
 	"gorm.io/gorm"
 
 	"github.com/MingPV/UserService/internal/entities"
-	GrpcProfileHandler "github.com/MingPV/UserService/internal/profile/handler/grpc"
-	profileRepository "github.com/MingPV/UserService/internal/profile/repository"
-	profileUseCase "github.com/MingPV/UserService/internal/profile/usecase"
-	profilepb "github.com/MingPV/UserService/proto/profile"
+	GrpcProfileHandler "TeamUpSpace-UserService/internal/profile/handler/grpc"
+	profileRepository "TeamUpSpace-UserService/internal/profile/repository"
+	profileUseCase "TeamUpSpace-UserService/internal/profile/usecase"
+	profilepb "TeamUpSpace-UserService/proto/profile"
 
-	GrpcUserReportHandler "github.com/MingPV/UserService/internal/userreport/handler/grpc"
-	userreportRepository "github.com/MingPV/UserService/internal/userreport/repository"
-	userreportUseCase "github.com/MingPV/UserService/internal/userreport/usecase"
-	userreportpb "github.com/MingPV/UserService/proto/userreport"
+	GrpcUserReportHandler "TeamUpSpace-UserService/internal/userreport/handler/grpc"
+	userreportRepository "TeamUpSpace-UserService/internal/userreport/repository"
+	userreportUseCase "TeamUpSpace-UserService/internal/userreport/usecase"
+	userreportpb "TeamUpSpace-UserService/proto/userreport"
+
+	GrpcUserFollowHandler "TeamUpSpace-UserService/internal/userfollow/handler/grpc"
+	userfollowRepository "TeamUpSpace-UserService/internal/userfollow/repository"
+	userfollowUseCase "TeamUpSpace-UserService/internal/userfollow/usecase"
+	userfollowpb "TeamUpSpace-UserService/proto/userfollow"
 
 	"github.com/MingPV/UserService/pkg/config"
 	"github.com/MingPV/UserService/pkg/database"
 	"github.com/MingPV/UserService/pkg/middleware"
 	"github.com/MingPV/UserService/pkg/routes"
-
 )
 
 // rest
@@ -48,6 +52,10 @@ func SetupGrpcServer(db *gorm.DB, cfg *config.Config) (*grpc.Server, error) {
 	userReportRepo := userreportRepository.NewGormUserReportRepository(db)
 	userReportService := userreportUseCase.NewUserReportService(userReportRepo)
 
+	// UserFollow
+	userFollowRepo := userfollowRepository.NewGormUserFollowRepository(db)
+	userFollowService := userfollowUseCase.NewUserFollowService(userFollowRepo)
+
 	// === Register gRPC Services ===
 	// Profile
 	profileHandler := GrpcProfileHandler.NewGrpcProfileHandler(profileService)
@@ -56,6 +64,10 @@ func SetupGrpcServer(db *gorm.DB, cfg *config.Config) (*grpc.Server, error) {
 	// UserReport
 	userReportHandler := GrpcUserReportHandler.NewGrpcUserReportHandler(userReportService)
 	userreportpb.RegisterUserReportServiceServer(s, userReportHandler)
+
+	// UserFollow
+	userFollowHandler := GrpcUserFollowHandler.NewGrpcUserFollowHandler(userFollowService)
+	userfollowpb.RegisterUserFollowServiceServer(s, userFollowHandler)
 
 	return s, nil
 }
@@ -70,9 +82,9 @@ func SetupDependencies(env string) (*gorm.DB, *config.Config, error) {
 	}
 
 	if env == "test" {
-		db.Migrator().DropTable(&entities.Profile{}, &entities.User{}, &entities.UserReport{})
+		db.Migrator().DropTable(&entities.Profile{}, &entities.User{}, &entities.UserReport{}, &entities.UserFollow{})
 	}
-	if err := db.AutoMigrate(&entities.Profile{}, &entities.User{}, &entities.UserReport{}); err != nil {
+	if err := db.AutoMigrate(&entities.Profile{}, &entities.User{}, &entities.UserReport{}, &entities.UserFollow{}); err != nil {
 		return nil, nil, err
 	}
 

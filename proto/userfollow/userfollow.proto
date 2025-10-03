@@ -1,0 +1,68 @@
+syntax = "proto3";
+
+package userfollow;
+
+option go_package = "proto/userfollow";
+
+message UserFollow {
+  int32 id = 1;
+  string user_id = 2;
+  string follow_to = 3;
+  string created_at = 4;
+}
+
+message CreateUserFollowRequest {
+  string user_id = 1;
+  string follow_to = 2;
+}
+
+message CreateUserFollowResponse {
+  UserFollow user_follow = 1;
+}
+
+message FindUserFollowByIDRequest {
+  int32 id = 1;
+}
+
+message FindUserFollowByIDResponse {
+  UserFollow user_follow = 1;
+}
+
+message FindAllByUserRequest {
+  string user_id = 1;
+}
+
+message FindAllByUserResponse {
+  repeated UserFollow user_follows = 1;
+}
+
+message FindAllByFollowToRequest {
+  string follow_to = 1;
+}
+
+message FindAllByFollowToResponse {
+  repeated UserFollow user_follows = 1;
+}
+
+message FindAllUserFollowsRequest {}
+
+message FindAllUserFollowsResponse {
+  repeated UserFollow user_follows = 1;
+}
+
+message DeleteUserFollowRequest {
+  int32 id = 1;
+}
+
+message DeleteUserFollowResponse {
+  string message = 1;
+}
+
+service UserFollowService {
+  rpc CreateUserFollow(CreateUserFollowRequest) returns (CreateUserFollowResponse);
+  rpc FindUserFollowByID(FindUserFollowByIDRequest) returns (FindUserFollowByIDResponse);
+  rpc FindAllByUser(FindAllByUserRequest) returns (FindAllByUserResponse);
+  rpc FindAllByFollowTo(FindAllByFollowToRequest) returns (FindAllByFollowToResponse);
+  rpc FindAllUserFollows(FindAllUserFollowsRequest) returns (FindAllUserFollowsResponse);
+  rpc DeleteUserFollow(DeleteUserFollowRequest) returns (DeleteUserFollowResponse);
+}
