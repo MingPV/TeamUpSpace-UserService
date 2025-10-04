@@ -16,11 +16,15 @@ import (
 	userreportUseCase "github.com/MingPV/UserService/internal/userreport/usecase"
 	userreportpb "github.com/MingPV/UserService/proto/userreport"
 
+	GrpcUserFollowHandler "github.com/MingPV/UserService/internal/userfollow/handler/grpc"
+	userfollowRepository "github.com/MingPV/UserService/internal/userfollow/repository"
+	userfollowUseCase "github.com/MingPV/UserService/internal/userfollow/usecase"
+	userfollowpb "github.com/MingPV/UserService/proto/userfollow"
+
 	"github.com/MingPV/UserService/pkg/config"
 	"github.com/MingPV/UserService/pkg/database"
 	"github.com/MingPV/UserService/pkg/middleware"
 	"github.com/MingPV/UserService/pkg/routes"
-
 )
 
 // rest
@@ -48,6 +52,10 @@ func SetupGrpcServer(db *gorm.DB, cfg *config.Config) (*grpc.Server, error) {
 	userReportRepo := userreportRepository.NewGormUserReportRepository(db)
 	userReportService := userreportUseCase.NewUserReportService(userReportRepo)
 
+	// UserFollow
+	userFollowRepo := userfollowRepository.NewGormUserFollowRepository(db)
+	userFollowService := userfollowUseCase.NewUserFollowService(userFollowRepo)
+
 	// === Register gRPC Services ===
 	// Profile
 	profileHandler := GrpcProfileHandler.NewGrpcProfileHandler(profileService)
@@ -56,6 +64,10 @@ func SetupGrpcServer(db *gorm.DB, cfg *config.Config) (*grpc.Server, error) {
 	// UserReport
 	userReportHandler := GrpcUserReportHandler.NewGrpcUserReportHandler(userReportService)
 	userreportpb.RegisterUserReportServiceServer(s, userReportHandler)
+
+	// UserFollow
+	userFollowHandler := GrpcUserFollowHandler.NewGrpcUserFollowHandler(userFollowService)
+	userfollowpb.RegisterUserFollowServiceServer(s, userFollowHandler)
 
 	return s, nil
 }
@@ -70,9 +82,9 @@ func SetupDependencies(env string) (*gorm.DB, *config.Config, error) {
 	}
 
 	if env == "test" {
-		db.Migrator().DropTable(&entities.Profile{}, &entities.User{}, &entities.UserReport{})
+		db.Migrator().DropTable(&entities.Profile{}, &entities.User{}, &entities.UserReport{}, &entities.UserFollow{})
 	}
-	if err := db.AutoMigrate(&entities.Profile{}, &entities.User{}, &entities.UserReport{}); err != nil {
+	if err := db.AutoMigrate(&entities.Profile{}, &entities.User{}, &entities.UserReport{}, &entities.UserFollow{}); err != nil {
 		return nil, nil, err
 	}
 
