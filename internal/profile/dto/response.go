@@ -19,6 +19,7 @@ type ProfileResponse struct {
 	BackgroundURL string    `json:"background_url"`
 	Location      string    `json:"location"`
 	Country       string    `json:"country"`
+	Resume        string    `json:"resume"`
 	CreatedAt     time.Time `json:"created_at"`
 	UpdatedAt     time.Time `json:"updated_at"`
 }

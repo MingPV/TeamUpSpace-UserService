@@ -18,6 +18,7 @@ func ToProfileResponse(profile *entities.Profile) *ProfileResponse {
 		BackgroundURL: profile.BackgroundURL,
 		Location:      profile.Location,
 		Country:       profile.Country,
+		Resume:        profile.Resume,
 		CreatedAt:     profile.CreatedAt,
 		UpdatedAt:     profile.UpdatedAt,
 	}
