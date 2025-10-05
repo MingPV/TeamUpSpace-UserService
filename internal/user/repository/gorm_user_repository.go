@@ -66,7 +66,11 @@ func (r *GormUserRepository) FindAll() ([]*entities.User, error) {
 }
 
 func (r *GormUserRepository) Patch(id string, user *entities.User) error {
-	result := r.db.Model(&entities.User{}).Where("id = ?", id).Updates(user)
+	// result := r.db.Model(&entities.User{}).Where("id = ?", id).Updates(user)
+	result := r.db.Model(&entities.User{}).Where("id = ?", id).Updates(map[string]interface{}{
+		"is_ban":    user.IsBan,
+		"ban_until": user.BanUntil,
+	})
 	if result.Error != nil {
 		return result.Error
 	}

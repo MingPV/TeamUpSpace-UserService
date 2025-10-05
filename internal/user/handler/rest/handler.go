@@ -234,7 +234,18 @@ func (h *HttpUserHandler) PatchUser(c *fiber.Ctx) error {
 		return responses.ErrorWithMessage(c, err, "invalid request")
 	}
 
-	user := &entities.User{IsBan: req.IsBan}
+	var banUntil time.Time
+	var err error
+	if req.BanUntil != "" {
+		banUntil, err = time.Parse(time.RFC3339, req.BanUntil)
+		if err != nil {
+			return responses.ErrorWithMessage(c, err, "invalid BanUntil format, must be RFC3339")
+		}
+	}
+
+	fmt.Println(req.IsBan, banUntil)
+
+	user := &entities.User{IsBan: req.IsBan, BanUntil: banUntil}
 
 	msg, err := validatePatchUser(user)
 	if err != nil {

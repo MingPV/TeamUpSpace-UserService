@@ -136,10 +136,11 @@ func (h *GrpcUserReportHandler) DeleteUserReport(ctx context.Context, req *userr
 
 func toProtoUserReport(ur *entities.UserReport) *userreportpb.UserReport {
 	return &userreportpb.UserReport{
-		Id:       int32(ur.ID),
-		Reporter: ur.Reporter.String(),
-		ReportTo: ur.ReportTo.String(),
-		Detail:   ur.Detail,
-		Status:   ur.Status,
+		Id:        int32(ur.ID),
+		Reporter:  ur.Reporter.String(),
+		ReportTo:  ur.ReportTo.String(),
+		Detail:    ur.Detail,
+		Status:    ur.Status,
+		CreatedAt: ur.CreatedAt.Format("2006-01-02T15:04:05Z07:00"),
 	}
 }

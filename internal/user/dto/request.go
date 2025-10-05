@@ -17,5 +17,6 @@ type LoginRequest struct {
 }
 
 type PatchUserRequest struct {
-	IsBan bool `json:"is_ban"`
+	IsBan    bool   `json:"is_ban"`
+	BanUntil string `json:"ban_until"`
 }

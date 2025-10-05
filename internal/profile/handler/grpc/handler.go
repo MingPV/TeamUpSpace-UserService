@@ -41,6 +41,7 @@ func (h *GrpcProfileHandler) CreateProfile(ctx context.Context, req *profilepb.C
 		BackgroundURL: req.BackgroundUrl,
 		Location:      req.Location,
 		Country:       req.Country,
+		Resume:        req.Resume,
 	}
 
 	if err := h.profileUseCase.CreateProfile(profile); err != nil {
@@ -90,6 +91,7 @@ func (h *GrpcProfileHandler) PatchProfile(ctx context.Context, req *profilepb.Pa
 		BackgroundURL: req.BackgroundUrl,
 		Location:      req.Location,
 		Country:       req.Country,
+		Resume:        req.Resume,
 	}
 
 	updatedProfile, err := h.profileUseCase.PatchProfile(req.UserId, profile)
@@ -125,6 +127,7 @@ func toProtoProfile(o *entities.Profile) *profilepb.Profile {
 		BackgroundUrl: o.BackgroundURL,
 		Location:      o.Location,
 		Country:       o.Country,
+		Resume:        o.Resume,
 		CreatedAt:     timestamppb.New(o.CreatedAt),
 		UpdatedAt:     timestamppb.New(o.UpdatedAt),
 	}
