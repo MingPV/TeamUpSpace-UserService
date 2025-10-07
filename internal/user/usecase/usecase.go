@@ -71,7 +71,8 @@ func (s *UserService) Login(email string, password string) (string, *entities.Us
 	claims := jwt.MapClaims{
 		"user_id": user.ID,
 		// "user_info": user,
-		"exp": time.Now().Add(time.Hour * 72).Unix(), // 3 days
+		"is_admin": user.IsAdmin,
+		"exp":      time.Now().Add(time.Hour * 72).Unix(), // 3 days
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
@@ -171,7 +172,8 @@ func (s *UserService) LoginOrRegisterWithGoogle(userInfo map[string]interface{},
 	claims := jwt.MapClaims{
 		"user_id": user.ID,
 		// "user_info": user,
-		"exp": time.Now().Add(time.Hour * 72).Unix(), // 3 days
+		"is_admin": user.IsAdmin,
+		"exp":      time.Now().Add(time.Hour * 72).Unix(), // 3 days
 	}
 
 	jwtToken := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
