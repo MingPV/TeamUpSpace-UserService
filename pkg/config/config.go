@@ -30,6 +30,8 @@ type Config struct {
 	GoogleClientId     string
 	GoogleClientSecret string
 	GoogleRedirectURL  string
+
+	RabbitMQUrl string
 }
 
 func LoadConfig(env string) *Config {
@@ -62,6 +64,7 @@ func LoadConfig(env string) *Config {
 		GoogleClientId:     getEnv("GOOGLE_OAUTH_CLIENT_ID", ""),
 		GoogleClientSecret: getEnv("GOOGLE_OAUTH_CLIENT_SECRET", ""),
 		GoogleRedirectURL:  getEnv("GOOGLE_OAUTH_REDIRECT_URL", ""),
+		RabbitMQUrl:        getEnv("RABBITMQ_URL", "amqp://guest:guest@localhost:5672/"),
 	}
 
 	cfg.DatabaseDSN = fmt.Sprintf(

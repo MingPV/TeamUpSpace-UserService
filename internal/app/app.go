@@ -24,6 +24,7 @@ import (
 	"github.com/MingPV/UserService/pkg/config"
 	"github.com/MingPV/UserService/pkg/database"
 	"github.com/MingPV/UserService/pkg/middleware"
+	"github.com/MingPV/UserService/pkg/mq"
 	"github.com/MingPV/UserService/pkg/routes"
 )
 
@@ -43,6 +44,10 @@ func SetupRestServer(db *gorm.DB, cfg *config.Config) (*fiber.App, error) {
 func SetupGrpcServer(db *gorm.DB, cfg *config.Config) (*grpc.Server, error) {
 	s := grpc.NewServer()
 
+	// MQ Publisher
+	rabbitURL := cfg.RabbitMQUrl
+	mqPublisher := mq.NewRabbitMQPublisher(rabbitURL)
+
 	// === Dependency Wiring ===
 	// Profile
 	profileRepo := profileRepository.NewGormProfileRepository(db)
@@ -54,7 +59,7 @@ func SetupGrpcServer(db *gorm.DB, cfg *config.Config) (*grpc.Server, error) {
 
 	// UserFollow
 	userFollowRepo := userfollowRepository.NewGormUserFollowRepository(db)
-	userFollowService := userfollowUseCase.NewUserFollowService(userFollowRepo)
+	userFollowService := userfollowUseCase.NewUserFollowService(userFollowRepo, mqPublisher)
 
 	// === Register gRPC Services ===
 	// Profile

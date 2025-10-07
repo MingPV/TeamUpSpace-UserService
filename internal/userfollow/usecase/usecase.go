@@ -1,17 +1,21 @@
 package usecase
 
 import (
+	"log"
+
 	"github.com/MingPV/UserService/internal/entities"
 	"github.com/MingPV/UserService/internal/userfollow/repository"
+	"github.com/MingPV/UserService/pkg/mq"
 	"github.com/google/uuid"
 )
 
 type UserFollowService struct {
 	repo repository.UserFollowRepository
+	mq   mq.MQPublisher
 }
 
-func NewUserFollowService(repo repository.UserFollowRepository) UserFollowUseCase {
-	return &UserFollowService{repo: repo}
+func NewUserFollowService(repo repository.UserFollowRepository, mq mq.MQPublisher) UserFollowUseCase {
+	return &UserFollowService{repo: repo, mq: mq}
 }
 
 func (s *UserFollowService) FollowUser(userID, followTo string) (*entities.UserFollow, error) {
@@ -27,6 +31,17 @@ func (s *UserFollowService) FollowUser(userID, followTo string) (*entities.UserF
 	if err := s.repo.Save(uf); err != nil {
 		return nil, err
 	}
+
+	mqevent := entities.UserFollowCreatedEvent{
+		UserID:   uid,
+		FollowTo: ft,
+	}
+
+	err = s.mq.Publish("UserFollowCreated", mqevent)
+	if err != nil {
+		log.Println("Failed to publish event:", err)
+	}
+
 	return uf, nil
 }
 
